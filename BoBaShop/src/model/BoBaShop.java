@@ -45,4 +45,8 @@ private String name;
             System.out.println("Can't restock because: "+ex.getMessage());
         }
     }
+    
+    public boolean isStockFull(){
+        return stock.isFull();
+    }
 }
