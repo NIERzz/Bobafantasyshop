@@ -9,6 +9,6 @@ package Account;
  *
  * @author User
  */
-enum AccountStatus {
+public enum AccountStatus {
     SUBSCRIBED,UNSUBSCRIBED,BLACKLISTED
 }
