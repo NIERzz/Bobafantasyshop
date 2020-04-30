@@ -7,6 +7,7 @@ package model;
 
 import Account.Account;
 import Exception.NoProduct;
+import dbaccess.Stock;
 import java.util.List;
 
 /**
@@ -18,7 +19,19 @@ public class CustomerAccount extends Account {
     private int accMoney;
     private OrderList cusCart;
     private boolean status;
+    private String email;
+    private String phone;
 
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public CustomerAccount(){}
     public CustomerAccount(String id, String password, Person person) {
         super(id, password, person);
         this.status = true;
