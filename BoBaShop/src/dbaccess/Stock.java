@@ -136,5 +136,9 @@ public class Stock {
             System.out.println(ex);
         }
     }
+    
+    public boolean isFull(){
+        return MAX_CAPACITY-count==0 ;
+    }
 
 }
