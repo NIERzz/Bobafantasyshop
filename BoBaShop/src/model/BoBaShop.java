@@ -2,6 +2,13 @@
 package model;
 
 //import Exception.ExceedMaxCapacityException;
+
+import Exception.ExceedMaxCapacityException;
+import Exception.NEIAException;
+import dbaccess.Stock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 //import dbaccess.Stock;
 
 public class BoBaShop {
@@ -12,31 +19,30 @@ private String name;
 
     public BoBaShop(String name) {
         this.name = name;
-//        this.stock = new Stock(300);
+        this.stock = new Stock(300);
     }
     
     public void addNewMenu(Product p){
-//        stock.insertProduct(p);
-    }
-    
-    public void addNewMenu(Product p,int amount){
-//        stock.insertProduct(p);
-//        restock(p, amount);
+        stock.insertProduct(p);
     }
     
     public void showMenu(){
-//        stock.showAll();
+        stock.showAll();
     }
     
-    public void updateStock(Product product, int amount){
-//        stock.update(product, amount);
+    public void updateStock(int id, int amount){
+    try {
+        stock.update(id, amount);
+    } catch (NEIAException ex) {
+        System.out.println(ex);
+    }
     }
     
-    public void restock(Product product, int amount){
-//        try {
-//            stock.restock(product, amount);
-//        } catch (ExceedMaxCapacityException ex) {
-//            System.out.println("Can't restock because: "+ex.getMessage());
-//        }
+    public void restock(int id, int amount){
+        try {
+            stock.restock(id, amount);
+        } catch (ExceedMaxCapacityException ex) {
+            System.out.println("Can't restock because: "+ex.getMessage());
+        }
     }
 }
