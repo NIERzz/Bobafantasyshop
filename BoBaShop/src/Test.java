@@ -1,4 +1,5 @@
 
+import dbaccess.CustInfomation;
 import model.Beverage;
 import model.BoBaShop;
 import model.Dessert;
@@ -7,7 +8,8 @@ import model.Product;
 
 public class Test {
     public static void main(String[] args) {
-//        createTable();
+//        CustInfomation cust = new CustInfomation();
+//        cust.createTable();
 //        insertData();
         BoBaShop boba = new BoBaShop("BobaFamily");
 
