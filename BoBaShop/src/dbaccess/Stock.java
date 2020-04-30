@@ -25,8 +25,7 @@ public class Stock {
     }
 
     private void createTable() {;
-        try (Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             try {
                 stm.executeUpdate("DROP TABLE product");
             } catch (SQLException ex) {
@@ -42,8 +41,8 @@ public class Stock {
     }
 
     public void insertProduct(Product product) {
-        try (Connection conn = DBConnection.getConnection()) {
-            PreparedStatement pstm = conn.prepareStatement("INSERT INTO product VALUES(?,?,?,?,0,'"+product.getStatus()+"')");
+        try ( Connection conn = DBConnection.getConnection()) {
+            PreparedStatement pstm = conn.prepareStatement("INSERT INTO product VALUES(?,?,?,?,0,'" + product.getStatus() + "')");
             if (product.getClass().getSimpleName().equals("Beverage")) {
                 if (prodCount == lastCat) {
                     pstm.setInt(1, ++prodCount);
@@ -53,8 +52,7 @@ public class Stock {
                     pstm.setInt(1, ++lastCat);
                     prodCount++;
                 }
-            }
-            else {
+            } else {
                 pstm.setInt(1, ++prodCount);
             }
             pstm.setString(2, product.getClass().getSimpleName());
@@ -66,10 +64,8 @@ public class Stock {
         }
     }
 
-
     public void showAll() { //แก้เป็นส่ง GeneralList กลับไปยัง view
-        try (Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product ORDER BY p_id ASC");
             while (rs.next()) {
                 String format = "%-25s%-20s%-15s%-15s%n";
@@ -85,18 +81,17 @@ public class Stock {
     }
 
     public void update(int id, int amount) throws NEIAException {
-        try (Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
-                if((rs.getInt("p_amount")-amount)<0){
+                if ((rs.getInt("p_amount") - amount) < 0) {
                     throw new NEIAException("Not Enough Items Available");
                 }
                 stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + " WHERE p_id = " + id);
-                if(rs.getInt("p_amount")==0){
-                    stm.executeUpdate("UPDATE product SET p_status = '"+ProductStatus.OUT_OF_STOCK+"' WHERE p_id = "+id);
+                if (rs.getInt("p_amount") == 0) {
+                    stm.executeUpdate("UPDATE product SET p_status = '" + ProductStatus.OUT_OF_STOCK + "' WHERE p_id = " + id);
                 }
-                
+
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -107,16 +102,15 @@ public class Stock {
         if (count + amount > MAX_CAPACITY) {
             throw new ExceedMaxCapacityException("Current capacity cannot contain more than " + (MAX_CAPACITY - count) + " products");
         }
-        try (Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
-                if(rs.getString("p_status").equals(ProductStatus.OUT_OF_STOCK.toString())){
-                    stm.execute("UPDATE product SET p_status = '"+ProductStatus.AVAILABLE+"', p_amount = " + (rs.getInt("p_amount") + amount)+ " WHERE p_id = " + id);
+                if (rs.getString("p_status").equals(ProductStatus.OUT_OF_STOCK.toString())) {
+                    stm.execute("UPDATE product SET p_status = '" + ProductStatus.AVAILABLE + "', p_amount = " + (rs.getInt("p_amount") + amount) + " WHERE p_id = " + id);
                     count += amount;
                 } else {
-                stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") + amount) + " WHERE p_id = " + id);
-                count += amount;
+                    stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") + amount) + " WHERE p_id = " + id);
+                    count += amount;
                 }
             }
         } catch (SQLException ex) {
@@ -125,8 +119,7 @@ public class Stock {
     }
 
     private void relocate(int i) {
-        try (Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             int temp = prodCount;
             while (temp > i) {
                 stm.executeUpdate("UPDATE product SET p_id = " + (temp + 1) + " WHERE p_id = " + temp);
@@ -136,9 +129,9 @@ public class Stock {
             System.out.println(ex);
         }
     }
-    
-    public boolean isFull(){
-        return MAX_CAPACITY-count==0 ;
+
+    public boolean isFull() {
+        return MAX_CAPACITY - count == 0;
     }
 
 }
