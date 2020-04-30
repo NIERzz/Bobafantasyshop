@@ -1,5 +1,6 @@
 
 import Account.AccountStatus;
+import dbaccess.CustInfomation;
 import dbaccess.DBConnection;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -26,6 +27,8 @@ public class App {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
+        CustInfomation custInfomation = new CustInfomation();
+        custInfomation.createTable();
         do {
             select = menu();
             switch (select) {
@@ -42,12 +45,12 @@ public class App {
     }
 
     public static void signin() {
-        System.out.println("WELCOME -TO- SIGN-IN");
+        System.out.println("WELCOME -TO- SIGN-IN /n");
         CheckUsernameForSignIn();
     }
 
     public static void signup() {
-        System.out.println("WELCOME -TO- SIGN-UP");
+        System.out.println("WELCOME -TO- SIGN-UP /n");
         CheckUsernameForSignUp();
     }
 
@@ -59,19 +62,21 @@ public class App {
     }
 
     public static String CheckUsernameForSignIn() {
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
 
-            System.out.println("Enter your username: ");
-            String signin = user.next();
-            System.out.println("Enter your password: ");
-            String pass2 = user.next();
-            String sql = "SELECT * FROM  customer WHERE cust_username LIKE " + signin;
-            ResultSet rs = stm.executeQuery(sql);
-            if ((rs != null) && (rs.next())) {
+        System.out.println("Enter your username: ");
+        String signin = user.next();
+        System.out.println("Enter your password: ");
+        String pass2 = user.next();
+        String sql = "SELECT * FROM customer WHERE cus_username LIKE '" + signin + "'";
+
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement();  ResultSet rs = stm.executeQuery(sql)) {
+            while ((rs.next())) {
                 //next method
             }
         } catch (SQLException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        } catch (NullPointerException ex) {
+            System.out.println("NULL");
         }
 
         return username;
@@ -79,28 +84,29 @@ public class App {
 
     public static String CheckUsernameForSignUp() {
         dup = true;
-        String sql = "SELECT * FROM  customer WHERE cust_username LIKE %" + username;
         String name, firstname, lastname, phone, email;
-        System.out.println("Choose your username: ");
-        username = choose.next();
-        try ( Connection conn = DBConnection.getConnection()) {
-            Statement stm = conn.prepareStatement(sql);
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement();) {
+            
+            System.out.println("Choose your username: ");
+            username = choose.next();
+            String sql = "SELECT * FROM customer WHERE cus_username LIKE '" + username + "'";
             ResultSet rs = stm.executeQuery(sql);
-            if (rs != null) {
+
+           if (rs != null && rs.next()) {
                 {
                     dup = false;
                 }
-
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        } catch (NullPointerException ex) {
+            System.out.println("NULL");
         }
 
         if (dup) {
-            try ( Connection conn = DBConnection.getConnection();  
-                    PreparedStatement ppsm = conn.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?)")) {
 
+            try ( Connection conn = DBConnection.getConnection();  PreparedStatement ppsm = conn.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?)")) {
                 System.out.println("Choose a password");
                 String passw = choose.next();
                 System.out.println("Enter first name");
@@ -112,20 +118,20 @@ public class App {
                 System.out.println("Enter your email");
                 email = user.nextLine();
                 name = (firstname + " " + lastname);
-                AccountStatus SUBSCRIBED = AccountStatus.SUBSCRIBED;
+                String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
 
                 ppsm.setString(1, name);
                 ppsm.setString(2, email);
                 ppsm.setString(3, phone);
                 ppsm.setString(4, username);
                 ppsm.setString(5, passw);
-                ppsm.setObject(6, SUBSCRIBED);
+                ppsm.setString(6, SUBSCRIBED);
                 ppsm.executeUpdate();
-//              (name + ", " + email + ", " + phone + ", " + username + ", " + passw + ", " + SUBSCRIBED);
+
                 System.out.println("Sign up succesfully added");
 
             } catch (SQLException ex) {
-                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         } else {
             System.out.println("That username already exists");
