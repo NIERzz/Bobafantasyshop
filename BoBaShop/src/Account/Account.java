@@ -24,12 +24,7 @@ public abstract class Account {
         this.status = AccountStatus.SUBSCRIBED;
     }
     
-   public void Register(String id,String password){
-       this.id=id;
-       this.password=password;
-   }
-    
-   public boolean Unsubscribe(){
+   public boolean unsubscribe(){
         this.status= AccountStatus.UNSUBSCRIBED;
         return true;
     }
@@ -53,10 +48,7 @@ public abstract class Account {
     public Person getPerson() {
         return person;
     }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+    
 
     public AccountStatus getStatus() {
         return status;

@@ -15,22 +15,22 @@ import java.util.List;
  */
 public class CustomerAccount extends Account {
 
-    private int accmoney;
-    private Cart cuscart;
+    private int accMoney;
+    private OrderList cusCart;
     private boolean status;
 
     public CustomerAccount(String id, String password, Person person) {
         super(id, password, person);
         this.status = true;
-        cuscart = new Cart(this);
+        cusCart = new OrderList(this);
     }
 
     public int CheckMoney() {
-        return accmoney;
+        return accMoney;
     }
 
     public int getAccmoney() {
-        return accmoney;
+        return accMoney;
     }
 
     public Product getProduct(String menu) {
@@ -46,36 +46,33 @@ public class CustomerAccount extends Account {
     }
 
     public void addToCart(Product product) {
-        cuscart.Items.add(product);
+        cusCart.add(product);
     }
 
     public void removeProduct(String menu) {
         Product prod = getProduct(menu);
-        cuscart.Items.remove(prod);
+        cusCart.remove(prod);
     }
 
-    public void printCartItems() throws NoProduct{
-//        int totle=0;
-        if (cuscart.Items==null) {
+    public GeneralList printCartItems() throws NoProduct{
+        if (cusCart.Items==null) {
            throw new NoProduct("Nothing in cart ");
         }
-        for (Product prod : cuscart.Items) {
-            System.out.println(prod.getName() + +prod.getPrice());
+        GeneralList<Product> prod= new GeneralList<>();
+        for (int i = 0; i < cusCart.Items.size(); i++) {
+                prod.add(cusCart.Items.get(i));
         }
-//            totle += prod.getPrice();
-//                    }
-//            System.out.println("Total price is : "+totle);
-        
+        return prod;
     }
 
-    public void TopupAccmoney(int money) {
+    public void topupAccMoney(int money) {
         if (status) {
-            this.accmoney += money;
+            this.accMoney += money;
         }
     }
 
-    public boolean Unsubscribe1() {
-        super.Unsubscribe();
+    public boolean unsubscribe1() {
+        super.unsubscribe();
         this.status = false;
         return true;
     }
@@ -83,7 +80,6 @@ public class CustomerAccount extends Account {
     public boolean MakePayment() throws NullPointerException, NoProduct{
         if (status) {
             printCartItems();
-            BoBaShop b1 = new BoBaShop();
         }
         return false;
     }
