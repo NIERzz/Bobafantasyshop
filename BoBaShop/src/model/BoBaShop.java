@@ -31,6 +31,10 @@ public class BoBaShop {
 //            throw new AuthFailedException("Staff account doesn't match");
 //        }
 //    }
+    
+    public void removeProduct(int id){
+        stock.removeProduct(id);
+    }
 
     public void showMenu() {
         stock.showAll();
