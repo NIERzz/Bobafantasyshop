@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Beverage;
+import model.Dessert;
 import model.Product;
 import model.ProductStatus;
 
@@ -128,6 +130,22 @@ public class Stock {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+    }
+    
+    public Product getProductById(int id){
+        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
+            if(rs.next()){
+                if(rs.getString("p_type").equals("Beverage")){
+                    return new Beverage(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+                } else {
+                    return new Dessert(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
     }
 
     public boolean isFull() {
