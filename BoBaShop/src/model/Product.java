@@ -11,6 +11,12 @@ public abstract class Product {
         this.name = name;
         this.status = ProductStatus.OUT_OF_STOCK;
     }
+    
+    public Product(int price, String name, ProductStatus pStatus) {
+        this.price = price;
+        this.name = name;
+        this.status = pStatus;
+    }
 
     public int getPrice() {
         return price;
