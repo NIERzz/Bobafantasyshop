@@ -89,6 +89,9 @@ public class BoBaShop {
     }
 
     public boolean checkUsername(String username) {
+        if(username.equals("admin") || username.equals(staff.getId())){
+            return false;
+        }
         for (Account customer : customers) {
             if (customer.getId().equals(username)) {
                 return true;
