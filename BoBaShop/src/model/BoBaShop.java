@@ -47,15 +47,9 @@ public class BoBaShop {
         return false;
     }
 
-//    public void addNewProduct(Product p) {
-//            stock.insertProduct(p);
-//    }
-    public void addNewProduct(StaffAccount staff, Product p) throws AuthFailedException {
-        if (auth(staff)) {
+    public void addNewProduct(Product p) {
             stock.insertProduct(p);
-        } else {
-            throw new AuthFailedException("Staff account doesn't match");
-        }
+
     }
     
     public void removeProductFromStock(int id){
@@ -77,17 +71,6 @@ public class BoBaShop {
                 System.out.println(ex);
             }
     }
-//    public void updateStock(StaffAccount staff, int id, int amount) throws AuthFailedException {
-//        if (auth(staff)) {
-//            try {
-//                stock.update(id, amount);
-//            } catch (NEIAException ex) {
-//                System.out.println(ex);
-//            }
-//        } else {
-//            throw new AuthFailedException("Staff account doesn't match");
-//        }
-//    }
 
     public void restock(int id, int amount) {
             try {
@@ -96,17 +79,6 @@ public class BoBaShop {
                 System.out.println("Can't restock because: " + ex.getMessage());
             }
     }
-//    public void restock(StaffAccount staff, int id, int amount) throws AuthFailedException {
-//        if (auth(staff)) {
-//            try {
-//                stock.restock(id, amount);
-//            } catch (ExceedMaxCapacityException ex) {
-//                System.out.println("Can't restock because: " + ex.getMessage());
-//            }
-//        } else {
-//            throw new AuthFailedException("Staff account doesn't match");
-//        }
-//    }
 
     public boolean isStockFull() {
         return stock.isFull();
