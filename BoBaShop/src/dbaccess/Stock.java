@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Product;
 import model.ProductStatus;
 
@@ -23,6 +21,7 @@ public class Stock {
         createTable();
         this.MAX_CAPACITY = max;
     }
+
 
     private void createTable() {;
         try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
@@ -134,4 +133,5 @@ public class Stock {
         return MAX_CAPACITY - count == 0;
     }
 
+    
 }
