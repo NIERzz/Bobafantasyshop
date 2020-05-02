@@ -103,11 +103,11 @@ public class BoBaShop {
         return stock.isFull();
     }
 
-    private boolean checkStaff(String usn, String psw) {
+    public boolean checkStaff(String usn, String psw) {
         return this.staff.getId().equals(usn) && this.staff.getPassword().equals(psw);
     }
 
-    private CustomerAccount checkCustomer(String usn, String psw) {
+    public CustomerAccount checkCustomer(String usn, String psw) {
         for (CustomerAccount customer : customers) {
             if (customer.getId().equals(usn) && customer.getPassword().equals(psw)) {
                 return customer;
