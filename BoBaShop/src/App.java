@@ -45,12 +45,12 @@ public class App {
     }
 
     public static void signin() {
-        System.out.println("WELCOME -TO- SIGN-IN /n");
+        System.out.println("WELCOME -TO- SIGN-IN");
         CheckUsernameForSignIn();
     }
 
     public static void signup() {
-        System.out.println("WELCOME -TO- SIGN-UP /n");
+        System.out.println("WELCOME -TO- SIGN-UP");
         CheckUsernameForSignUp();
     }
 
