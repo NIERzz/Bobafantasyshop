@@ -19,9 +19,9 @@ public class BoBaShop {
     private StaffAccount staff;
     private Stock stock;
 
-    public BoBaShop(String name, StaffAccount staff) {
+    public BoBaShop(String name, StaffAccount staff,int max) {
         this.name = name;
-        this.stock = new Stock(300);
+        this.stock = new Stock(max);
         this.customers = new ArrayList<>();
         this.staff = staff;
     }
