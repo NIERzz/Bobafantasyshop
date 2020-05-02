@@ -208,7 +208,7 @@ public class App {
         System.out.println("Enter your email: ");
         email = input.nextLine();
         name = (firstname + " " + lastname);
-        System.out.println(" ****** YOUR ACCOUNT HAS BEEN CREATED SUCCESSFULLY ****** ");
+        System.out.println(" ****** YOUR ACCOUNT HAS BEEN SUCCESSFULLY CREATED  ****** ");
         XXX.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
     }
 
