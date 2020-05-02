@@ -6,6 +6,7 @@
 package dbaccess;
 
 import Account.Account;
+import Account.AccountStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,37 +47,40 @@ public class CustInfomation {
         }
     }
 
-    public int insert(CustomerAccount obj) {
+    public static int insert(Account obj) {
         int nRow = 0;
-        String sql = "INSERT INTO customer VALUES(?,?)";
+        String sql = "INSERT INTO customer VALUES(?,?,?,?,?,?)";
+
+        String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
         try ( Connection conn = DBConnection.getConnection();  PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setObject(1, obj.getPerson());
-            pstm.setString(2, obj.getEmail());
-            pstm.setString(3, obj.getPhone());
+            System.out.println(obj);
+            pstm.setString(1, obj.getPerson().getName());
+            pstm.setString(2, obj.getPerson().getEmail());
+            pstm.setString(3, obj.getPerson().getPhone());
             pstm.setString(4, obj.getId());
             pstm.setString(5, obj.getPassword());
-            pstm.setObject(6, obj.getStatus());
+            pstm.setString(6, SUBSCRIBED);
             pstm.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+
         return nRow;
     }
 
-     public Account findByUsername(String name) {
-          try(Connection conn=DBConnection.getConnection();
-               PreparedStatement stm=conn.prepareStatement("SELECT * FROM customer WHERE cust_name like ?")){
-          stm.setString(1, name);
-          ResultSet rs=stm.executeQuery();
-              if (rs.next()) {
-                  Account temp = new CustomerAccount(rs.getString("cust_username"),rs.getString("cust_password"),new Person(rs.getString("cust_name"),rs.getString("cust_phone"),rs.getString("cust_email")));
-                return temp; 
-              }   
-    }   catch (SQLException ex) {
-              System.out.println(ex.getMessage());
+    public Account findByUsername(String name) {
+        try ( Connection conn = DBConnection.getConnection();  PreparedStatement stm = conn.prepareStatement("SELECT * FROM customer WHERE cust_name like ?")) {
+            stm.setString(1, name);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                Account temp = new CustomerAccount(rs.getString("cust_username"), rs.getString("cust_password"), new Person(rs.getString("cust_name"), rs.getString("cust_phone"), rs.getString("cust_email")));
+                return temp;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
         return null;
-        
-}
-     
+
+    }
+
 }
