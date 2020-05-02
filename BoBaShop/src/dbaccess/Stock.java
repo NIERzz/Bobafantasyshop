@@ -7,6 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Beverage;
+import model.Dessert;
 import model.Product;
 import model.ProductStatus;
 
@@ -30,7 +34,7 @@ public class Stock {
             } catch (SQLException ex) {
             }
             try {
-                stm.executeUpdate("CREATE TABLE product (p_id INT,p_type VARCHAR(20),p_name VARCHAR(30) NOT NULL, p_price DOUBLE, p_amount INT, p_status VARCHAR(20), PRIMARY KEY (p_name))");
+                stm.executeUpdate("CREATE TABLE product (p_id INT,p_type VARCHAR(20),p_name VARCHAR(30) NOT NULL, p_price INT, p_amount INT, p_status VARCHAR(20), PRIMARY KEY (p_id))");
             } catch (SQLException ex) {
             }
 
@@ -47,7 +51,7 @@ public class Stock {
                     pstm.setInt(1, ++prodCount);
                     lastCat++;
                 } else {
-                    relocate(lastCat);
+                    addShiftUp(lastCat);
                     pstm.setInt(1, ++lastCat);
                     prodCount++;
                 }
@@ -117,12 +121,60 @@ public class Stock {
         }
     }
 
-    private void relocate(int i) {
+    private void addShiftUp(int i) {
         try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
             int temp = prodCount;
             while (temp > i) {
                 stm.executeUpdate("UPDATE product SET p_id = " + (temp + 1) + " WHERE p_id = " + temp);
                 temp--;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    private void removeShiftDown(int i) {
+        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+            int temp = prodCount;
+            while (i < temp) {
+                stm.executeUpdate("UPDATE product SET p_id = " + i + " WHERE p_id = " + (i + 1));
+                i++;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    public Product getProductById(int id){
+        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
+            if(rs.next()){
+                if(rs.getString("p_type").equals("Beverage")){
+                    return new Beverage(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+                } else {
+                    return new Dessert(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public void removeProduct(int id){
+        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
+            if(rs.next()){
+                    if(rs.getString("p_type").equals("Beverage")){
+                        stm.executeUpdate("DELETE FROM product WHERE p_id = "+id);
+                        removeShiftDown(id);
+                        lastCat--;
+                    } else {
+                        stm.executeUpdate("DELETE FROM product WHERE p_id = "+id);
+                        removeShiftDown(id);
+                    }
+                    
+                    prodCount--;
             }
         } catch (SQLException ex) {
             System.out.println(ex);

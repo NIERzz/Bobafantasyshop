@@ -15,13 +15,15 @@ public class Test {
 
         Product p01 = new Beverage(30, "Kratom");
         Product p02 = new Beverage(20, "Papzi");
-        Product p03 = new Beverage(9999, "Namjai");
+        Product p03 = new Beverage(450, "Nam123");
         Product p04 = new Beverage(1, "Nam");
         Product p05 = new Dessert(99, "Chocolate cake");
-        Product p06 = new Dessert(999, "Cream pie");
-        Product p07 = new Beverage(666, "Grandma's saliva");
+        Product p06 = new Dessert(999, "Pineapple pie");
+        Product p07 = new Beverage(666, "Oishi");
         Product p08 = new Dessert(999, "LardNhar");
         Product p09 = new Beverage(10, "Lactazoi 10 Bath");
+        
+        
         
         boba.addNewMenu(p01);
         boba.addNewMenu(p02);
@@ -42,6 +44,8 @@ public class Test {
         boba.restock(7, 19);
         boba.restock(8, 3);
         boba.restock(9, 1);
+        
+
         
         
 //        System.out.println(p04.getClass().getSimpleName());
@@ -65,7 +69,11 @@ public class Test {
 //        boba.showMenu();
 //        
 //        
-        
+
+//        System.out.println(boba.getProduct(8));
+//        Product temp = boba.getProduct(8);
+//        System.out.println(temp);
+//        if(temp==null)System.out.println("null");
     }
 
     
