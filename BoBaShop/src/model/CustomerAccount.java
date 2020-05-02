@@ -20,7 +20,6 @@ public class CustomerAccount extends Account {
 
     public CustomerAccount(String id, String password, Person person) {
         super(id, password, person);
-
         this.status = true;
         cusCart = new OrderList(this);
     }
@@ -59,14 +58,7 @@ public class CustomerAccount extends Account {
         }
     }
 
-    public boolean unsubscribe1() {
-        super.unsubscribe();
-        this.status = false;
-        return true;
-    }
-
     public boolean makePayment() {
-        
         return false;
     }
 
