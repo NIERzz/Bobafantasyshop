@@ -44,10 +44,10 @@ public class BoBaShop {
             }
         }
     }
-    
-    public void makePayment(Account ca){
+
+    public void makePayment(Account ca) {
         for (CustomerAccount customer : customers) {
-            if(customer.equals(ca)){
+            if (customer.equals(ca)) {
                 customer.makePayment();
             }
         }
@@ -71,10 +71,10 @@ public class BoBaShop {
             System.out.println("Can't restock because: " + ex.getMessage());
         }
     }
-    
-    public void blacklistCustomer(Account ca){
+
+    public void blacklistCustomer(Account ca) {
         for (CustomerAccount customer : customers) {
-            if(customer.equals(ca)){
+            if (customer.equals(ca)) {
                 ca.setStatus(AccountStatus.BLACKLISTED);
             }
         }
@@ -83,13 +83,12 @@ public class BoBaShop {
     ////////////////////////////////////////
     ////////////// GENERAL /////////////////
     ////////////////////////////////////////
-    
     public void addCustomer(CustomerAccount ca) {
         customers.add(ca);
     }
 
     public boolean checkUsername(String username) {
-        if(username.equals("admin") || username.equals(staff.getId())){
+        if (username.equals("admin") || username.equals(staff.getId())) {
             return false;
         }
         for (Account customer : customers) {
@@ -104,8 +103,17 @@ public class BoBaShop {
         return stock.isFull();
     }
 
-    private boolean auth(StaffAccount staff) {
-        return this.staff.equals(staff);
+    private boolean checkStaff(String usn, String psw) {
+        return this.staff.getId().equals(usn) && this.staff.getPassword().equals(psw);
+    }
+
+    private CustomerAccount checkCustomer(String usn, String psw) {
+        for (CustomerAccount customer : customers) {
+            if (customer.getId().equals(usn) && customer.getPassword().equals(psw)) {
+                return customer;
+            }
+        }
+        return null;
     }
 
     public Product getProductFromStock(int id) {

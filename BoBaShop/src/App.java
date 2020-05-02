@@ -17,17 +17,13 @@ import model.StaffAccount;
 public class App {
 
     static int select;
-    static Scanner user = new Scanner(System.in);
-    static Scanner choose = new Scanner(System.in);
-    private static String username;
-    static Boolean dup;
+    static Scanner input = new Scanner(System.in);
     static String menu = "Menu:\n"
             + "1. sign-in\n"
             + "2. sign-up \n"
             + "3. exits \n"
             + "Select menu: ";
     private static boolean bool = true;
-    static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         CustInfomation custInfomation = new CustInfomation();
@@ -64,75 +60,86 @@ public class App {
         return select;
     }
 
-    public static String CheckUsernameForSignIn() {
+    public static void CheckUsernameForSignIn() {
+        boolean check;
+        do {
+            check = false;
+            System.out.println("Enter your username: ");
+            String usn = input.next();
+            System.out.println("Enter your password: ");
+            String psw = input.next();
 
-        System.out.println("Enter your username: ");
-        String usn = user.next();
-        System.out.println("Enter your password: ");
-        String psw = user.next();
-        
-        checkAdmin(usn,psw);
-        checkStaff(usn,psw);
-        checkCustomer(usn,psw);
-        
-        
-
-        return username;
+            if (checkAdmin(usn, psw)) {
+                admin();
+                check = true;
+            }
+            if (checkStaff(usn, psw)) {
+                staff();
+                check = true;
+            }
+            if (checkCustomer(usn, psw) != null) {
+                customer(checkCustomer(usn, psw));
+                check = true;
+            }
+        } while (!check);
     }
-    
-    public static void admin(){
+
+    public static void admin() {
 //        createshop name staff(username,pass,new Person(name,email,phone)) max_capacity
 //        logout
     }
-    
-    public static void staff(StaffAccount sa){
+
+    public static void staff() {
 //        addproduct
 //        removeproduct
 //        restock
 //      blacklist
     }
-    
-    public static void customer(CustomerAccount ca){
+
+    public static void customer(CustomerAccount ca) {
 //        topup
 //        order
 //          pay
     }
 
-    public static String CheckUsernameForSignUp() {
-        String name, firstname, lastname, phone, email;
-                
-        do{
+    public static String CheckUsernameForSignUp2() {
+        String username, name, firstname, lastname, phone, email;
+        boolean checkTemp;
+        do {
+            checkTemp = false;
             System.out.println("enter username");
-            String username = choose.next();
-            boolean temp = boba.checkUsername(username);
-        }while()
-        
-                
-                System.out.println("Choose a password");
-                String passw = choose.next();
-                System.out.println("Enter first name");
-                firstname = user.nextLine();
-                System.out.println("Enter last name");
-                lastname = user.nextLine();
-                System.out.println("Enter your phone numbers");
-                phone = user.nextLine();
-                System.out.println("Enter your email");
-                email = user.nextLine();
-                name = (firstname + " " + lastname);
-                String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
+            username = input.next();
+            checkTemp = XXX.checkUsername(username);
+        } while (!checkTemp);
 
+        System.out.println("Choose a password");
+        String passw = input.next();
+        System.out.println("Enter first name");
+        firstname = input.nextLine();
+        System.out.println("Enter last name");
+        lastname = input.nextLine();
+        System.out.println("Enter your phone numbers");
+        phone = input.nextLine();
+        System.out.println("Enter your email");
+        email = input.nextLine();
+        name = (firstname + " " + lastname);
+        String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
 
-                System.out.println("Sign up succesfully added");
-                
-                boba.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
+        System.out.println("Sign up succesfully added");
 
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else {
-            System.out.println("That username already exists");
-        }
+        XXX.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
 
-        return username;
+    }
+
+    private static boolean checkAdmin(String usn, String psw) {
+        return usn.equals("admin") && psw.equals("admin");
+    }
+
+    private static boolean checkStaff(String usn, String psw) {
+        return XXX.checkStaff(usn, psw);
+    }
+
+    private static CustomerAccount checkCustomer(String usn, String psw) {
+        return XXX.checkCustomer(usn, psw);
     }
 }
