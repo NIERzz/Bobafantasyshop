@@ -76,6 +76,10 @@ public class GeneralList<T> implements Iterable<T> {
         };
     }
 
+    public int getCount() {
+        return count;
+    }
+
     private void expand() {
         T[] temp = (T[]) new Object[this.items.length + this.items.length];
         System.arraycopy(this.items, 0, temp, 0, count);
