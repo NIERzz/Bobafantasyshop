@@ -2,6 +2,7 @@
 import dbaccess.CustInfomation;
 import model.Beverage;
 import model.BoBaShop;
+import model.CustomerAccount;
 import model.Dessert;
 import model.Product;
 
@@ -12,6 +13,7 @@ public class Test {
 //        cust.createTable();
 //        insertData();
         BoBaShop boba = new BoBaShop("BobaFamily");
+        
 
         Product p01 = new Beverage(30, "Kratom");
         Product p02 = new Beverage(20, "Papzi");
@@ -25,15 +27,15 @@ public class Test {
         
         
         
-        boba.addNewMenu(p01);
-        boba.addNewMenu(p02);
-        boba.addNewMenu(p03);
-        boba.addNewMenu(p04);
-        boba.addNewMenu(p05);
-        boba.addNewMenu(p06);
-        boba.addNewMenu(p07);
-        boba.addNewMenu(p08);
-        boba.addNewMenu(p09);
+        boba.addNewProduct(p01);
+        boba.addNewProduct(p02);
+        boba.addNewProduct(p03);
+        boba.addNewProduct(p04);
+        boba.addNewProduct(p05);
+        boba.addNewProduct(p06);
+        boba.addNewProduct(p07);
+        boba.addNewProduct(p08);
+        boba.addNewProduct(p09);
         boba.showMenu();
         boba.restock(1, 30);
         boba.restock(2, 40);
@@ -44,16 +46,27 @@ public class Test {
         boba.restock(7, 19);
         boba.restock(8, 3);
         boba.restock(9, 1);
+        System.out.println("===== Menu =====");
+        boba.showMenu();
         
+        boba.removeProductFromStock(2);
+        boba.removeProductFromStock(7);
 
+        System.out.println("");
+        boba.showMenu();
+        System.out.println("");
+        
+                boba.addNewProduct(p06);
+        boba.addNewProduct(p02);
+        
+        boba.showMenu();
         
         
 //        System.out.println(p04.getClass().getSimpleName());
 //        System.out.println("");
 //        System.out.println("");
         
-        System.out.println("===== Menu =====");
-        boba.showMenu();
+
 //        System.out.println("===== Update decrease "+p04.getName()+" by 30 =====");
 //        boba.updateStock(4, 30);
 //        System.out.println("==== After Update =====");

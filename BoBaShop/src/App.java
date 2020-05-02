@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import model.CustomerAccount;
+import model.Person;
+import model.StaffAccount;
 
 public class App {
 
@@ -64,49 +67,46 @@ public class App {
     public static String CheckUsernameForSignIn() {
 
         System.out.println("Enter your username: ");
-        String signin = user.next();
+        String usn = user.next();
         System.out.println("Enter your password: ");
-        String pass2 = user.next();
-        String sql = "SELECT * FROM customer WHERE cus_username LIKE '" + signin + "'";
-
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement();  ResultSet rs = stm.executeQuery(sql)) {
-            while ((rs.next())) {
-                //next method
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        } catch (NullPointerException ex) {
-            System.out.println("NULL");
-        }
+        String psw = user.next();
+        
+        checkAdmin(usn,psw);
+        checkStaff(usn,psw);
+        checkCustomer(usn,psw);
+        
+        
 
         return username;
     }
+    
+    public static void admin(){
+//        createshop name staff(username,pass,new Person(name,email,phone)) max_capacity
+//        logout
+    }
+    
+    public static void staff(StaffAccount sa){
+//        addproduct
+//        removeproduct
+//        restock
+    }
+    
+    public static void customer(CustomerAccount ca){
+//        topup
+//        order
+//          pay
+    }
 
     public static String CheckUsernameForSignUp() {
-        dup = true;
         String name, firstname, lastname, phone, email;
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement();) {
-            
-            System.out.println("Choose your username: ");
-            username = choose.next();
-            String sql = "SELECT * FROM customer WHERE cus_username LIKE '" + username + "'";
-            ResultSet rs = stm.executeQuery(sql);
-
-           if (rs != null && rs.next()) {
-                {
-                    dup = false;
-                }
-            }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        } catch (NullPointerException ex) {
-            System.out.println("NULL");
-        }
-
-        if (dup) {
-
-            try ( Connection conn = DBConnection.getConnection();  PreparedStatement ppsm = conn.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?)")) {
+                
+        do{
+            System.out.println("enter username");
+            String username = choose.next();
+            boolean temp = boba.checkUsername(username);
+        }while()
+        
+                
                 System.out.println("Choose a password");
                 String passw = choose.next();
                 System.out.println("Enter first name");
@@ -120,15 +120,10 @@ public class App {
                 name = (firstname + " " + lastname);
                 String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
 
-                ppsm.setString(1, name);
-                ppsm.setString(2, email);
-                ppsm.setString(3, phone);
-                ppsm.setString(4, username);
-                ppsm.setString(5, passw);
-                ppsm.setString(6, SUBSCRIBED);
-                ppsm.executeUpdate();
 
                 System.out.println("Sign up succesfully added");
+                
+                boba.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
 
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());

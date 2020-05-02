@@ -161,6 +161,18 @@ public class Stock {
         return null;
     }
     
+//    public int getProductId(Product p){
+//        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
+//            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_name = "+p.getName()+" AND p_price = "+p.getPrice()+" AND p_type = '"+p.getClass().getSimpleName()+"'");
+//            if(rs.next()){
+//                return rs.getInt("p_id");
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//        return -1;
+//    }
+    
     public void removeProduct(int id){
         try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
