@@ -19,21 +19,10 @@ public class CustomerAccount extends Account {
     private int accMoney;
     private OrderList cusCart;
     private boolean status;
-    private String email;
-    private String phone;
 
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public CustomerAccount(){}
     public CustomerAccount(String id, String password, Person person) {
         super(id, password, person);
+
         this.status = true;
         cusCart = new OrderList(this);
     }
@@ -46,34 +35,22 @@ public class CustomerAccount extends Account {
         return accMoney;
     }
 
-    public Product getProduct(String menu) {
-        Product product = null;
-        List<Product> Stock = new Stock().getProducts();
-        for (Product prod : Stock) {
-            if (prod.getName().equals(menu)) {
-                product = prod;
-                break;
-            }
-        }
-        return product;
-    }
 
     public void addToCart(Product product) {
         cusCart.add(product);
     }
 
-    public void removeProduct(String menu) {
-        Product prod = getProduct(menu);
-        cusCart.remove(prod);
-    }
+//    public void removeProduct(String menu) {
+//        cusCart.remove(menu);
+//    }
 
-    public GeneralList printCartItems() throws NoProduct{
-        if (cusCart.Items==null) {
-           throw new NoProduct("Nothing in cart ");
+    public GeneralList printCartItems() throws NoProduct {
+        if (cusCart.items == null) {
+            throw new NoProduct("Nothing in cart ");
         }
-        GeneralList<Product> prod= new GeneralList<>();
-        for (int i = 0; i < cusCart.Items.size(); i++) {
-                prod.add(cusCart.Items.get(i));
+        GeneralList<Product> prod = new GeneralList<>();
+        for (int i = 0; i < cusCart.items.size(); i++) {
+            prod.add(cusCart.items.get(i));
         }
         return prod;
     }
@@ -90,7 +67,7 @@ public class CustomerAccount extends Account {
         return true;
     }
 
-    public boolean MakePayment() throws NullPointerException, NoProduct{
+    public boolean MakePayment() throws NullPointerException, NoProduct {
         if (status) {
             printCartItems();
         }
