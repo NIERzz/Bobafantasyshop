@@ -16,31 +16,38 @@ import model.Person;
 import model.StaffAccount;
 
 public class App {
-
-    static int select;
+    private static BoBaShop boba;
+    static int selecthome;
+    static int selectcust;
     static Scanner input = new Scanner(System.in);
-    static String menu = " =====   Select Your Menu:   ===== \n"
+    static String menuhomepage = " =====   Select Your Menu:   ===== \n"
             + "           1. • Sign-in •            \n"
             + "           2. • Sign-up •            \n"
-            + "           3. • Exits   •            \n"
+            + "           3. •  Exits  •            \n"
+            + " ==================================  ";
+    static String menucustomer = " =====   Select Your Menu:   ===== \n"
+            + "           1. • Topup •            \n"
+            + "           2. • Order •            \n"
+            + "           3. •  Pay  •            \n"
             + " ==================================  ";
     
     
     public static void main(String[] args) {
-        CustInfomation custInfomation = new CustInfomation();
-        custInfomation.createTable();
+        
+    }
+    public static void homepage(){
         do {
-            select = menu();
-            switch (select) {
-                case 1://sign-in
+            selecthome = menu();
+            switch (selecthome) {
+                case 1:
                     login();
                     break;
-                case 2://sign-up
+                case 2:
                     register();
 
                     break;
             }
-        } while (select != 3);
+        } while (selecthome != 3);
          System.out.println("********************************************************");
          System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
          System.out.println("********************************************************");
@@ -49,6 +56,10 @@ public class App {
     public static void login() {
         System.out.println("******   LOGIN YOUR ACCOUNT   ******");
         CheckUsernameForLogIn();
+        System.out.println(" === Login Sucessfully === ");
+    }
+    public static void logout(){
+        homepage();
     }
 
     public static void register() {
@@ -60,10 +71,10 @@ public class App {
          System.out.println("*******************************************");
          System.out.println("*********   WELCOME TO BOBASHOP   *********");
          System.out.println("*******************************************");
-         System.out.println(menu);
+         System.out.println(menuhomepage);
          System.out.print(" • Enter your menu: ");
-        select = input.nextInt();
-        return select;
+        selecthome = input.nextInt();
+        return selecthome;
     }
 
     public static void CheckUsernameForLogIn() {
@@ -95,10 +106,10 @@ public class App {
     }
 
     public static void admin() {
-//        createshop name staff(username,pass,new Person(name,email,phone)) max_capacity
-//        logout
+        shopcreate();
+        logout();
     }
-    public void shopcreate() {
+    public static void shopcreate() {
         System.out.println("***************************************");
         System.out.println("*******  CREATE YOUR SHOP NAME  *******");
         System.out.println("***************************************");
@@ -120,7 +131,7 @@ public class App {
         String email = input.next();
         System.out.print("Enter your phone-number: ");
         String phonenum = input.next();
-         BoBaShop boba = new BoBaShop(shopname, new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum)),mcp);
+        boba = new BoBaShop(shopname, new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum)),mcp);
        
     
 }
@@ -130,13 +141,52 @@ public class App {
 //        restock
 //      blacklist
     }
-
-    public static void customer(CustomerAccount ca) {
-//        topup
-//        order
-//          pay
+    public static void addproduct(){
+        System.out.println("Product Id: ");
+        int productid = input.nextInt();
+       
     }
 
+    public static void customer(CustomerAccount ca) {
+        CustomerAccount customer = ca;
+        {
+            selectcust = menu();
+            switch (selectcust) {
+                case 1:
+                    topup(ca);
+                    break;
+                case 2:
+                    order(ca);
+                    break;
+                case 3:
+                    pay(ca);
+                    break;
+                    // can add more but not yet
+            }
+        } while (selectcust != 3); // can add more but not yet
+                 System.out.println("********************************************************");
+                 System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
+                 System.out.println("********************************************************");
+
+//          pay
+    }
+    public static void topup(CustomerAccount ca){
+        System.out.print("Enter your money: ");
+        int money = input.nextInt();
+        boba.topUp(ca, money);
+    }
+    
+    public static void order(CustomerAccount ca){
+        System.out.print("Select your drink: ");
+        int drinkmenu = input.nextInt();
+        System.out.println("Amount: ");
+        int amount = input.nextInt();
+        boba.order(ca, drinkmenu, amount);
+    }
+
+    public static void pay(CustomerAccount ca){ //*********** not success ***********
+        boba.makePayment(ca);
+    }
     public static String CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
         boolean checkTemp;
@@ -144,7 +194,7 @@ public class App {
             checkTemp = false;
             System.out.print("Create your username: ");
             username = input.next();
-            checkTemp = XXX.checkUsername(username);
+            checkTemp = boba.checkUsername(username);
         } while (!checkTemp);
 
         System.out.print("Create your password: ");
