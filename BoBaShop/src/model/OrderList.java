@@ -6,30 +6,44 @@
 package model;
 
 import java.util.ArrayList;
-
+import dbaccess.Stock;
 /**
  *
  * @author User
  */
 public class OrderList {
-    ArrayList<Product> Items = new ArrayList<Product>();
+    ArrayList<Product> items = new ArrayList<Product>();
     private CustomerAccount CA;
-
+    private Product product;
+   
+    
     public OrderList(CustomerAccount CA) {
         this.CA = CA;
     }
 
     public void add(Product product) {
-       Items.add(product);
+       items.add(product);
     }
 
+    public Product checkIdProduct(int id){
+        for (Product Item : items) {
+            if (Item.) {
+           
+                return Item;
+            }
+        }
+    
+    
+    return null;
+    }
+    
     public void remove(Product prod) {
-       Items.remove(prod);
+       items.remove(prod);
     }
 
     public ArrayList<Product> getItems() {
-        return Items;
+        return items;
     }
     
- 
+    
 }
