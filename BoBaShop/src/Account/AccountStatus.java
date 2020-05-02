@@ -10,5 +10,6 @@ package Account;
  * @author User
  */
 public enum AccountStatus {
-    SUBSCRIBED,UNSUBSCRIBED,BLACKLISTED
+    SUBSCRIBED,UNSUBSCRIBED,BLACKLISTED;
+    
 }
