@@ -7,8 +7,6 @@ package model;
 
 import Account.Account;
 import Exception.NoProduct;
-import dbaccess.Stock;
-import java.util.List;
 
 /**
  *
@@ -36,8 +34,8 @@ public class CustomerAccount extends Account {
     }
 
 
-    public void addToCart(Product product) {
-        cusCart.add(product);
+    public void addToCart(OrderedProduct op) {
+        cusCart.add(op);
     }
 
 //    public void removeProduct(String menu) {
@@ -50,7 +48,7 @@ public class CustomerAccount extends Account {
         }
         GeneralList<Product> prod = new GeneralList<>();
         for (int i = 0; i < cusCart.items.size(); i++) {
-            prod.add(cusCart.items.get(i));
+//            prod.add(cusCart.items.get(i));
         }
         return prod;
     }
@@ -67,10 +65,8 @@ public class CustomerAccount extends Account {
         return true;
     }
 
-    public boolean MakePayment() throws NullPointerException, NoProduct {
-        if (status) {
-            printCartItems();
-        }
+    public boolean makePayment() {
+        
         return false;
     }
 

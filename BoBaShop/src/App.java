@@ -89,6 +89,7 @@ public class App {
 //        addproduct
 //        removeproduct
 //        restock
+//      blacklist
     }
     
     public static void customer(CustomerAccount ca){

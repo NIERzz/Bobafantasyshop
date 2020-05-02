@@ -12,28 +12,25 @@ import dbaccess.Stock;
  * @author User
  */
 public class OrderList {
-    ArrayList<Product> items = new ArrayList<Product>();
+    ArrayList<OrderedProduct> items = new ArrayList<OrderedProduct>();
     private CustomerAccount CA;
-    private Product product;
+    private OrderedProduct product;
    
     
     public OrderList(CustomerAccount CA) {
         this.CA = CA;
     }
 
-    public void add(Product product) {
+    public void add(OrderedProduct product) {
        items.add(product);
     }
 
-    public Product checkIdProduct(int id){
-        for (Product Item : items) {
-            if (Item.) {
-           
-                return Item;
+    public OrderedProduct checkIdProduct(int id){
+        for (OrderedProduct item : items) {
+            if (item.getId()==id) {
+                return item;
             }
         }
-    
-    
     return null;
     }
     
@@ -41,7 +38,7 @@ public class OrderList {
        items.remove(prod);
     }
 
-    public ArrayList<Product> getItems() {
+    public ArrayList<OrderedProduct> getItems() {
         return items;
     }
     

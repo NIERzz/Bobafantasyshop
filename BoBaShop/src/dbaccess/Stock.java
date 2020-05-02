@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Beverage;
 import model.Dessert;
+import model.GeneralList;
+import model.OrderedProduct;
 import model.Product;
 import model.ProductStatus;
 
@@ -26,9 +28,8 @@ public class Stock {
         this.MAX_CAPACITY = max;
     }
 
-
     private void createTable() {;
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             try {
                 stm.executeUpdate("DROP TABLE product");
             } catch (SQLException ex) {
@@ -44,7 +45,7 @@ public class Stock {
     }
 
     public void insertProduct(Product product) {
-        try ( Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = DBConnection.getConnection()) {
             PreparedStatement pstm = conn.prepareStatement("INSERT INTO product VALUES(?,?,?,?,0,'" + product.getStatus() + "')");
             if (product.getClass().getSimpleName().equals("Beverage")) {
                 if (prodCount == lastCat) {
@@ -67,24 +68,40 @@ public class Stock {
         }
     }
 
-    public void showAll() { //แก้เป็นส่ง GeneralList กลับไปยัง view
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+//    public void showAll() { //แก้เป็นส่ง GeneralList กลับไปยัง view
+//        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+//            ResultSet rs = stm.executeQuery("SELECT * FROM product ORDER BY p_id ASC");
+//            while (rs.next()) {
+//                String format = "%-25s%-20s%-15s%-15s%n";
+//                System.out.printf(format, rs.getInt("p_id") + ": " + rs.getString("p_name"), " Price: " + rs.getInt("p_price"), "Left: " + rs.getInt("p_amount"), " Status: " + rs.getString("p_status"));
+//
+////                System.out.print(rs.getInt("p_id")+": "+rs.getString("p_name") + " Price: " + rs.getInt("p_price"));
+////                System.out.print(" \tLeft: " + rs.getInt("p_amount"));
+////                System.out.println(" \tType: " + rs.getString("p_type"));
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex);
+//        }
+//    }
+    public GeneralList<OrderedProduct> showAll() {
+        GeneralList<OrderedProduct> prodList = new GeneralList<>();
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product ORDER BY p_id ASC");
             while (rs.next()) {
-                String format = "%-25s%-20s%-15s%-15s%n";
-                System.out.printf(format, rs.getInt("p_id") + ": " + rs.getString("p_name"), " Price: " + rs.getInt("p_price"), "Left: " + rs.getInt("p_amount"), " Status: " + rs.getString("p_status"));
-
-//                System.out.print(rs.getInt("p_id")+": "+rs.getString("p_name") + " Price: " + rs.getInt("p_price"));
-//                System.out.print(" \tLeft: " + rs.getInt("p_amount"));
-//                System.out.println(" \tType: " + rs.getString("p_type"));
+                if (rs.getString("p_type").equals("Beverage")) {
+                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Beverage(rs.getInt("p_id"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
+                } else {
+                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Dessert(rs.getInt("p_id"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
+                }
             }
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+        return prodList;
     }
 
     public void update(int id, int amount) throws NEIAException {
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
                 if ((rs.getInt("p_amount") - amount) < 0) {
@@ -105,7 +122,7 @@ public class Stock {
         if (count + amount > MAX_CAPACITY) {
             throw new ExceedMaxCapacityException("Current capacity cannot contain more than " + (MAX_CAPACITY - count) + " products");
         }
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
                 if (rs.getString("p_status").equals(ProductStatus.OUT_OF_STOCK.toString())) {
@@ -122,7 +139,7 @@ public class Stock {
     }
 
     private void addShiftUp(int i) {
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             int temp = prodCount;
             while (temp > i) {
                 stm.executeUpdate("UPDATE product SET p_id = " + (temp + 1) + " WHERE p_id = " + temp);
@@ -132,9 +149,9 @@ public class Stock {
             System.out.println(ex);
         }
     }
-    
+
     private void removeShiftDown(int i) {
-        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             int temp = prodCount;
             while (i < temp) {
                 stm.executeUpdate("UPDATE product SET p_id = " + i + " WHERE p_id = " + (i + 1));
@@ -144,15 +161,15 @@ public class Stock {
             System.out.println(ex);
         }
     }
-    
-    public Product getProductById(int id){
-        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
-            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
-            if(rs.next()){
-                if(rs.getString("p_type").equals("Beverage")){
-                    return new Beverage(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+
+    public Product getProductById(int id) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
+            if (rs.next()) {
+                if (rs.getString("p_type").equals("Beverage")) {
+                    return new Beverage(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")));
                 } else {
-                    return new Dessert(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status"))); 
+                    return new Dessert(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")));
                 }
             }
         } catch (SQLException ex) {
@@ -160,7 +177,7 @@ public class Stock {
         }
         return null;
     }
-    
+
 //    public int getProductId(Product p){
 //        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
 //            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_name = "+p.getName()+" AND p_price = "+p.getPrice()+" AND p_type = '"+p.getClass().getSimpleName()+"'");
@@ -172,21 +189,20 @@ public class Stock {
 //        }
 //        return -1;
 //    }
-    
-    public void removeProduct(int id){
-        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
-            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = "+id);
-            if(rs.next()){
-                    if(rs.getString("p_type").equals("Beverage")){
-                        stm.executeUpdate("DELETE FROM product WHERE p_id = "+id);
-                        removeShiftDown(id);
-                        lastCat--;
-                    } else {
-                        stm.executeUpdate("DELETE FROM product WHERE p_id = "+id);
-                        removeShiftDown(id);
-                    }
-                    
-                    prodCount--;
+    public void removeProduct(int id) {
+        try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
+            if (rs.next()) {
+                if (rs.getString("p_type").equals("Beverage")) {
+                    stm.executeUpdate("DELETE FROM product WHERE p_id = " + id);
+                    removeShiftDown(id);
+                    lastCat--;
+                } else {
+                    stm.executeUpdate("DELETE FROM product WHERE p_id = " + id);
+                    removeShiftDown(id);
+                }
+
+                prodCount--;
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -197,5 +213,4 @@ public class Stock {
         return MAX_CAPACITY - count == 0;
     }
 
-    
 }

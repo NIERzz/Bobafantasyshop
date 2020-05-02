@@ -4,7 +4,9 @@ import model.Beverage;
 import model.BoBaShop;
 import model.CustomerAccount;
 import model.Dessert;
+import model.Person;
 import model.Product;
+import model.StaffAccount;
 
 
 public class Test {
@@ -12,7 +14,7 @@ public class Test {
 //        CustInfomation cust = new CustInfomation();
 //        cust.createTable();
 //        insertData();
-        BoBaShop boba = new BoBaShop("BobaFamily");
+        BoBaShop boba = new BoBaShop("boba", new StaffAccount("11","111", new Person("123", "123", "123")));
         
 
         Product p01 = new Beverage(30, "Kratom");
@@ -36,7 +38,7 @@ public class Test {
         boba.addNewProduct(p07);
         boba.addNewProduct(p08);
         boba.addNewProduct(p09);
-        boba.showMenu();
+        boba.getMenu();
         boba.restock(1, 30);
         boba.restock(2, 40);
         boba.restock(3, 90);
@@ -47,19 +49,19 @@ public class Test {
         boba.restock(8, 3);
         boba.restock(9, 1);
         System.out.println("===== Menu =====");
-        boba.showMenu();
+        boba.getMenu();
         
         boba.removeProductFromStock(2);
         boba.removeProductFromStock(7);
 
         System.out.println("");
-        boba.showMenu();
+        boba.getMenu();
         System.out.println("");
         
                 boba.addNewProduct(p06);
         boba.addNewProduct(p02);
         
-        boba.showMenu();
+        boba.getMenu();
         
         
 //        System.out.println(p04.getClass().getSimpleName());
