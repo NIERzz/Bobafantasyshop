@@ -13,13 +13,13 @@ import java.util.Objects;
  */
 public class Person {
     String name;
-    String phone;
     String email;
-
-    public Person(String name, String phone, String email) {
+    String phone;
+    
+    public Person(String name,String email, String phone) {
         this.name = name;
-        this.phone = phone;
         this.email = email;
+        this.phone=phone;
     }
 
     public String getName() {
@@ -45,11 +45,14 @@ public class Person {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     @Override
     public String toString() {
-        return "person{" + "name=" + name + ", phone=" + phone + ", email=" + email + '}';
+        return "Person{" + "name=" + name + ", email=" + email + ", phone=" + phone + '}';
     }
+
+   
+
     
     
 }
