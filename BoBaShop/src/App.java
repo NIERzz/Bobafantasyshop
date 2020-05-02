@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import model.BoBaShop;
 import model.CustomerAccount;
 import model.Person;
 import model.StaffAccount;
@@ -18,13 +19,13 @@ public class App {
 
     static int select;
     static Scanner input = new Scanner(System.in);
-    static String menu = "Menu:\n"
-            + "1. sign-in\n"
-            + "2. sign-up \n"
-            + "3. exits \n"
-            + "Select menu: ";
-    private static boolean bool = true;
-
+    static String menu = " =====   Select Your Menu:   ===== \n"
+            + "           1. • Sign-in •            \n"
+            + "           2. • Sign-up •            \n"
+            + "           3. • Exits   •            \n"
+            + " ==================================  ";
+    
+    
     public static void main(String[] args) {
         CustInfomation custInfomation = new CustInfomation();
         custInfomation.createTable();
@@ -32,41 +33,46 @@ public class App {
             select = menu();
             switch (select) {
                 case 1://sign-in
-                    signin();
+                    login();
                     break;
                 case 2://sign-up
-                    signup();
+                    register();
 
                     break;
             }
         } while (select != 3);
-        System.out.println("Thank u, See you");
+         System.out.println("********************************************************");
+         System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
+         System.out.println("********************************************************");
     }
 
-    public static void signin() {
-        System.out.println("WELCOME -TO- SIGN-IN");
-        CheckUsernameForSignIn();
+    public static void login() {
+        System.out.println("******   LOGIN YOUR ACCOUNT   ******");
+        CheckUsernameForLogIn();
     }
 
-    public static void signup() {
-        System.out.println("WELCOME -TO- SIGN-UP");
-        CheckUsernameForSignUp();
+    public static void register() {
+        System.out.println("******   REGISTER YOUR ACCOUNT   ******");
+        CheckUsernameForRegistered();
     }
 
     public static int menu() {
-        System.out.print("\n-----------WELCOME2BOBASHOP-------------\n");
-        System.out.print(menu);
+         System.out.println("*******************************************");
+         System.out.println("*********   WELCOME TO BOBASHOP   *********");
+         System.out.println("*******************************************");
+         System.out.println(menu);
+         System.out.print(" • Enter your menu: ");
         select = input.nextInt();
         return select;
     }
 
-    public static void CheckUsernameForSignIn() {
+    public static void CheckUsernameForLogIn() {
         boolean check;
         do {
             check = false;
-            System.out.println("Enter your username: ");
+            System.out.print("Enter your username: ");
             String usn = input.next();
-            System.out.println("Enter your password: ");
+            System.out.print("Enter your password: ");
             String psw = input.next();
 
             if (checkAdmin(usn, psw)) {
@@ -80,6 +86,10 @@ public class App {
             if (checkCustomer(usn, psw) != null) {
                 customer(checkCustomer(usn, psw));
                 check = true;
+            }else {
+              System.out.println(" ==== FAILED TO LOGIN! ==== ");
+              System.out.println("      PLEASE TRY AGAIN      ");
+              System.out.println(" ========================== ");
             }
         } while (!check);
     }
@@ -88,7 +98,32 @@ public class App {
 //        createshop name staff(username,pass,new Person(name,email,phone)) max_capacity
 //        logout
     }
+    public void shopcreate() {
+        System.out.println("***************************************");
+        System.out.println("*******  CREATE YOUR SHOP NAME  *******");
+        System.out.println("***************************************");
 
+        System.out.print("Enter your shop name: ");
+        String shopname = input.next();
+        System.out.print("Enter maximum capacity of your shop: ");
+        int mcp = input.nextInt();
+        System.out.println("********************************");
+        System.out.println("***** CREATE STAFF ACCOUNT *****");
+        System.out.println("********************************");
+        System.out.print("Enter your username: ");
+        String staffusn = input.next();
+        System.out.print("Enter your password: ");
+        String staffpsw = input.next();
+        System.out.println("Enter your name: ");
+        String staffname = input.next();
+        System.out.print("Enter your e-mail: ");
+        String email = input.next();
+        System.out.print("Enter your phone-number: ");
+        String phonenum = input.next();
+         BoBaShop boba = new BoBaShop(shopname, new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum)),mcp);
+       
+    
+}
     public static void staff() {
 //        addproduct
 //        removeproduct
@@ -102,33 +137,29 @@ public class App {
 //          pay
     }
 
-    public static String CheckUsernameForSignUp2() {
+    public static String CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
         boolean checkTemp;
         do {
             checkTemp = false;
-            System.out.println("enter username");
+            System.out.print("Create your username: ");
             username = input.next();
             checkTemp = XXX.checkUsername(username);
         } while (!checkTemp);
 
-        System.out.println("Choose a password");
+        System.out.print("Create your password: ");
         String passw = input.next();
-        System.out.println("Enter first name");
+        System.out.println("Enter your first name: ");
         firstname = input.nextLine();
-        System.out.println("Enter last name");
+        System.out.println("Enter your last name: ");
         lastname = input.nextLine();
-        System.out.println("Enter your phone numbers");
+        System.out.println("Enter your phone numbers: ");
         phone = input.nextLine();
-        System.out.println("Enter your email");
+        System.out.println("Enter your email: ");
         email = input.nextLine();
         name = (firstname + " " + lastname);
-        String SUBSCRIBED = AccountStatus.SUBSCRIBED.toString();
-
-        System.out.println("Sign up succesfully added");
-
+        System.out.println(" ****** YOUR ACCOUNT HAS BEEN CREATED SUCCESSFULLY ****** ");
         XXX.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
-
     }
 
     private static boolean checkAdmin(String usn, String psw) {
