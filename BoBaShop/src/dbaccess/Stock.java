@@ -87,9 +87,10 @@ public class Stock {
     public int getItemAmountById(int id){
         try(Connection conn = DBConnection.getConnection();
                 Statement stm = conn.createStatement()){
-            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id =" +id);
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " +id);
             if(rs.next()){
-                return rs.getInt("p_amount");
+                int temp = rs.getInt("p_amount");
+                return temp;
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -121,11 +122,11 @@ public class Stock {
                 if ((rs.getInt("p_amount") - amount) < 0) {
                     throw new NEIAException("Not Enough Items Available");
                 }
-                stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + " WHERE p_id = " + id);
-                if (rs.getInt("p_amount") == 0) {
-                    stm.executeUpdate("UPDATE product SET p_status = '" + ProductStatus.OUT_OF_STOCK + "' WHERE p_id = " + id);
+                if(rs.getInt("p_amount")-amount != 0){
+                    stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + " WHERE p_id = " + id);
+                } else {
+                    stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + ", p_status = '" + ProductStatus.OUT_OF_STOCK.toString() + "' WHERE p_id = " + id);
                 }
-
             }
         } catch (SQLException ex) {
             System.out.println(ex);
