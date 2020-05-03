@@ -165,7 +165,7 @@ public class App {
     /*                                                                          STAFF ZONE !!!!!!!                                                                                 */
     public static void staff(StaffAccount st) {
 do { 
-    selectstaff = menu();
+    selectstaff = menustaff();
 StaffAccount staff = st;
             
                 switch (selectstaff) {
@@ -237,9 +237,9 @@ StaffAccount staff = st;
    /*                                                                           CUSTOMER ZONE !!!!!!!                                                                                 */ 
     public static void customer(CustomerAccount ca) {
         CustomerAccount customer = ca;
-         do{   selectcust = menu();
-            
-            switch (selectcust) {
+         do{   
+             selectcust = menucustomer();
+             switch (selectcust) {
                 case 1:
                     topup(customer);
                     break;
