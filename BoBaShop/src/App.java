@@ -163,15 +163,27 @@ StaffAccount staff = st;
         System.out.println(" • 1. Beverage • ");
         System.out.println(" • 2. Dessert  • ");
         System.out.print(" === Enter type: ");
-        int type = input.nextInt();
-        switch(type){
+        int typeselect = input.nextInt();
+        switch(typeselect){
             case 1:
                 System.out.print("Enter the product: ");
-                String pname = input.next();
+                String Bname = input.next();
                 System.out.print("Enter price of product: ");
-                int pprice = input.nextInt();
-                
+                int Bprice = input.nextInt();
+                boba.addNewProduct(new Beverage(Bprice, Bname));
+                break;
+                case 2:
+                System.out.print("Enter the product: ");
+                String Dname = input.next();
+                System.out.print("Enter price of product: ");
+                int Dprice = input.nextInt();
+                boba.addNewProduct(new Dessert(Dprice, Dname));
+                break;
         }
+        while (typeselect != 2);
+            System.out.println("********************************************************");
+            System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
+            System.out.println("********************************************************");
        
     }
     public static void removeproduct(StaffAccount st){
@@ -179,12 +191,16 @@ StaffAccount staff = st;
         int rmproductid = input.nextInt();
         boba.removeProductFromStock(rmproductid);
     }
-    public static void restock(StaffAccount st) throws ExceedMaxCapacityException{
-        System.out.print("Enter Id to add the products: ");
+    public static void restock(StaffAccount st) {
+      try {  System.out.print("Enter Id to add the products: ");
         int addproductid = input.nextInt();
         System.out.print("Enter Amount of the products: ");
         int amountproduct = input.nextInt();
         boba.restock(addproductid, amountproduct);
+      }
+            catch(ExceedMaxCapacityException m){
+                System.out.println(m.getMessage());
+        }
     }
     public static void blacklist(CustomerAccount ca){
         System.out.print("Enter username: ");
