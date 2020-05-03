@@ -6,7 +6,7 @@ import java.util.Objects;
 public class GeneralList<T> implements Iterable<T> {
 
     private T[] items;
-    private int count;
+    private int count=0;
 
     public GeneralList() {
         this.items = (T[]) new Object[10];
