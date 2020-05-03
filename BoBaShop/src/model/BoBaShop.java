@@ -5,6 +5,7 @@ import Account.Account;
 import Account.AccountStatus;
 import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
+import Exception.NoProductException;
 import dbaccess.Stock;
 import java.util.ArrayList;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 public class BoBaShop {
 
     private String name;
-//    private CustomerAccount[] customers;
     private ArrayList<CustomerAccount> customers;
     private StaffAccount staff;
     private Stock stock;
@@ -53,6 +53,14 @@ public class BoBaShop {
         }
     }
 
+    public void removeOrderFromList(Account ca, int id) throws NoProductException {
+        for (CustomerAccount customer : customers) {
+            if (customer.equals(ca)) {
+                customer.removeProduct(id);
+            }
+        }
+    }
+
     /////////////////////////////////////
     ////////////// STAFF ////////////////
     /////////////////////////////////////
@@ -64,12 +72,8 @@ public class BoBaShop {
         stock.removeProduct(id);
     }
 
-    public void restock(int id, int amount) {
-        try {
-            stock.restock(id, amount);
-        } catch (ExceedMaxCapacityException ex) {
-            System.out.println("Can't restock because: " + ex.getMessage());
-        }
+    public void restock(int id, int amount) throws ExceedMaxCapacityException {
+        stock.restock(id, amount);
     }
 
     public void blacklistCustomer(Account ca) {
@@ -124,11 +128,7 @@ public class BoBaShop {
         return stock.showAll();
     }
 
-    public void updateStock(int id, int amount) {
-        try {
-            stock.update(id, amount);
-        } catch (NEIAException ex) {
-            System.out.println(ex);
-        }
+    public void updateStock(int id, int amount) throws NEIAException {
+        stock.update(id, amount);
     }
 }
