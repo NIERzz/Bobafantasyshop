@@ -25,6 +25,10 @@ public class OrderList {
     public void add(OrderedProduct product) {
        items.add(product);
     }
+    
+    public void clear(){
+        items = new ArrayList<>();
+    }
 
     //Check product by ID of product.
     public OrderedProduct checkIdProduct(int id){
