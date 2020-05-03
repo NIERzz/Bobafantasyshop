@@ -2,6 +2,7 @@ package dbaccess;
 
 import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
+import Exception.NoProductException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,27 +69,11 @@ public class Stock {
         }
     }
 
-//    public void showAll() { //แก้เป็นส่ง GeneralList กลับไปยัง view
-//        try ( Connection conn = DBConnection.getConnection();  Statement stm = conn.createStatement()) {
-//            ResultSet rs = stm.executeQuery("SELECT * FROM product ORDER BY p_id ASC");
-//            while (rs.next()) {
-//                String format = "%-25s%-20s%-15s%-15s%n";
-//                System.out.printf(format, rs.getInt("p_id") + ": " + rs.getString("p_name"), " Price: " + rs.getInt("p_price"), "Left: " + rs.getInt("p_amount"), " Status: " + rs.getString("p_status"));
-//
-////                System.out.print(rs.getInt("p_id")+": "+rs.getString("p_name") + " Price: " + rs.getInt("p_price"));
-////                System.out.print(" \tLeft: " + rs.getInt("p_amount"));
-////                System.out.println(" \tType: " + rs.getString("p_type"));
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
-//    }
-    
-    public int getItemAmountById(int id){
-        try(Connection conn = DBConnection.getConnection();
-                Statement stm = conn.createStatement()){
-            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " +id);
-            if(rs.next()){
+    public int getItemAmountById(int id) {
+        try (Connection conn = DBConnection.getConnection();
+                Statement stm = conn.createStatement()) {
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
+            if (rs.next()) {
                 int temp = rs.getInt("p_amount");
                 return temp;
             }
@@ -97,7 +82,7 @@ public class Stock {
         }
         return -1;
     }
-    
+
     public GeneralList<OrderedProduct> showAll() {
         GeneralList<OrderedProduct> prodList = new GeneralList<>();
         try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
@@ -122,7 +107,7 @@ public class Stock {
                 if ((rs.getInt("p_amount") - amount) < 0) {
                     throw new NEIAException("Not Enough Items Available");
                 }
-                if(rs.getInt("p_amount")-amount != 0){
+                if (rs.getInt("p_amount") - amount != 0) {
                     stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + " WHERE p_id = " + id);
                 } else {
                     stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") - amount) + ", p_status = '" + ProductStatus.OUT_OF_STOCK.toString() + "' WHERE p_id = " + id);
@@ -193,18 +178,7 @@ public class Stock {
         return null;
     }
 
-//    public int getProductId(Product p){
-//        try ( Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()){
-//            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_name = "+p.getName()+" AND p_price = "+p.getPrice()+" AND p_type = '"+p.getClass().getSimpleName()+"'");
-//            if(rs.next()){
-//                return rs.getInt("p_id");
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return -1;
-//    }
-    public void removeProduct(int id) {
+    public void removeProduct(int id) throws NoProductException {
         try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
@@ -218,6 +192,8 @@ public class Stock {
                 }
 
                 prodCount--;
+            } else {
+                throw new NoProductException("Not have product with this id");
             }
         } catch (SQLException ex) {
             System.out.println(ex);

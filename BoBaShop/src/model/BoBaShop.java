@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import service.CustomerServices;
+import service.StaffServices;
 
-//import dbaccess.Stock;
-public class BoBaShop {
+public class BoBaShop implements StaffServices, CustomerServices {
 
     private String name;
     private ArrayList<CustomerAccount> customers;
@@ -34,28 +35,40 @@ public class BoBaShop {
     /////////////////////////////////////
     //////////// CUSTOMER ///////////////
     /////////////////////////////////////
-    public void topUp(CustomerAccount ca, int amount) {
+    @Override
+    public boolean topUp(CustomerAccount ca, int amount) {
+        if (amount <= 0) {
+            return false;
+        }
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
                 customer.topupAccMoney(amount);
+                return true;
             }
         }
+        return false;
     }
 
-    public void order(Account ca, int id, int amount) {
+    @Override
+    public boolean order(Account ca, int id, int amount) {
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
                 if (stock.getProductById(id) != null) {
                     customer.addToCart(new OrderedProduct(id, amount, stock.getProductById(id)));
+                    return true;
+                } else {
+                    return false;
                 }
             }
         }
+        return false;
     }
 
+    @Override
     public void makePayment(Account ca) throws NotEnoughMoneyException, NoProductException, NEIAException, IOException {
         LocalDateTime timeorder = LocalDateTime.now(ZoneId.of("Asia/Singapore"));
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:SS");
-        
+
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
                 GeneralList<OrderedProduct> genList = customer.printCartItems();
@@ -77,15 +90,15 @@ public class BoBaShop {
                         int oAmount = temp.getAmount();
                         stock.update(id, oAmount);
                     }
-                    FileWriter fw = new FileWriter("Bill.txt");
+                    FileWriter fw = new FileWriter("orderLog.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
-                    bw.newLine();
-                    bw.write(" "+timeorder.format(format)+"Name: "+customer.getPerson().getName()+"{");
-                       for (int i = 0; i < genList.getCount(); i++) {
+                    bw.write(timeorder.format(format) + " Name: " + customer.getPerson().getName() + " {");
+                    for (int i = 0; i < genList.getCount(); i++) {
                         OrderedProduct temp = genList.getItemAt(i);
-                    bw.write("["+temp.getProduct().getName()+" "+temp.getAmount()+" "+temp.getProduct().getPrice()+"]");
+                        bw.write("[" + temp.getProduct().getName() + " " + temp.getAmount() + " " + temp.getProduct().getPrice() + "],");
                     }
-                    bw.write(", totalprice: "+customer.getTotalPrice()+"}");
+                    bw.write(" TotalPrice: " + customer.getTotalPrice() + " }");
+                    bw.newLine();
                     bw.close();
                 } else {
                     throw new NotEnoughMoneyException("Not enough money.");
@@ -95,6 +108,7 @@ public class BoBaShop {
         }
     }
 
+    @Override
     public void removeOrderFromList(Account ca, int id) throws NoProductException {
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
@@ -102,46 +116,76 @@ public class BoBaShop {
             }
         }
     }
-    
-    public void clearOrder(Account ca){
+
+    @Override
+    public void clearOrder(Account ca) {
         for (CustomerAccount customer : customers) {
-            if(customer.equals(ca)) {
+            if (customer.equals(ca)) {
                 customer.clear();
             }
         }
     }
-    
-    public GeneralList<OrderedProduct> getOrderList(Account ca) throws NoProductException{
+
+    @Override
+    public GeneralList<OrderedProduct> getOrderList(Account ca) throws NoProductException {
         GeneralList<OrderedProduct> genList = null;
         for (CustomerAccount customer : customers) {
-            if(customer.equals(ca)){
+            if (customer.equals(ca)) {
                 genList = customer.printCartItems();
             }
         }
         return genList;
     }
 
+    @Override
+    public int getAccMoney(Account ca) {
+        int temp = 0;
+        for (CustomerAccount customer : customers) {
+            if (customer.equals(ca)) {
+                temp = customer.getAccmoney();
+            }
+        }
+        return temp;
+    }
+
+    @Override
+    public int getTotalPrice(Account ca) {
+        int temp = 0;
+        for (CustomerAccount customer : customers) {
+            if (customer.equals(ca)) {
+                temp = customer.getTotalPrice();
+            }
+        }
+        return temp;
+    }
+
     /////////////////////////////////////
     ////////////// STAFF ////////////////
     /////////////////////////////////////
+    @Override
     public void addNewProduct(Product p) {
         stock.insertProduct(p);
     }
 
-    public void removeProductFromStock(int id) {
+    @Override
+    public void removeProductFromStock(int id) throws NoProductException {
         stock.removeProduct(id);
     }
 
+    @Override
     public void restock(int id, int amount) throws ExceedMaxCapacityException {
         stock.restock(id, amount);
     }
 
-    public void blacklistCustomer(Account ca) {
+    @Override
+    public boolean blacklistCustomer(Account ca) {
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
                 ca.setStatus(AccountStatus.BLACKLISTED);
+                return true;
             }
         }
+        return false;
     }
 
     ////////////////////////////////////////
