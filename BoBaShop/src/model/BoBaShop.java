@@ -6,6 +6,7 @@ import Account.AccountStatus;
 import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
 import Exception.NoProductException;
+import Exception.NotEnoughMoneyException;
 import dbaccess.Stock;
 import java.util.ArrayList;
 
@@ -45,10 +46,32 @@ public class BoBaShop {
         }
     }
 
-    public void makePayment(Account ca) {
+    public void makePayment(Account ca) throws NotEnoughMoneyException, NoProductException, NEIAException {
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
-                customer.makePayment();
+                GeneralList<OrderedProduct> genList = customer.printCartItems();
+                // Check whether the product in stock left less than orderlist. 
+                for (int i = 0; i < genList.getCount(); i++) {
+                    OrderedProduct temp = genList.getItemAt(i);
+                    int id = temp.getId();
+                    int sAmount = stock.getItemAmountById(id);
+                    if (temp.getAmount() > sAmount) {
+                        throw new NEIAException("Not Enough Item Available");
+                    }
+                }
+                // Make a payment -- decrease accmoney or throw exception
+                if (customer.makePayment()) {
+                    // Decrease stock amount
+                    for (int i = 0; i < genList.getCount(); i++) {
+                        OrderedProduct temp = genList.getItemAt(i);
+                        int id = temp.getId();
+                        int oAmount = temp.getAmount();
+                        stock.update(id, oAmount);
+                    }
+                } else {
+                    throw new NotEnoughMoneyException("Not enough money.");
+                }
+
             }
         }
     }
@@ -90,10 +113,10 @@ public class BoBaShop {
     public void addCustomer(CustomerAccount ca) {
         customers.add(ca);
     }
-    
-    public CustomerAccount getCustomerByUsername(String usn){
+
+    public CustomerAccount getCustomerByUsername(String usn) {
         for (CustomerAccount customer : customers) {
-            if(customer.getId().equals(usn)){
+            if (customer.getId().equals(usn)) {
                 return customer;
             }
         }
