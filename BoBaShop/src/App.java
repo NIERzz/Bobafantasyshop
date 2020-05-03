@@ -180,10 +180,7 @@ StaffAccount staff = st;
                 boba.addNewProduct(new Dessert(Dprice, Dname));
                 break;
         }
-        while (typeselect != 2);
-            System.out.println("********************************************************");
-            System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
-            System.out.println("********************************************************");
+       
        
     }
     public static void removeproduct(StaffAccount st){
