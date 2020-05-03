@@ -5,6 +5,8 @@ import model.Beverage;
 import model.BoBaShop;
 import model.CustomerAccount;
 import model.Dessert;
+import model.GeneralList;
+import model.OrderedProduct;
 import model.Person;
 import model.StaffAccount;
 
@@ -315,4 +317,13 @@ StaffAccount staff = st;
     private static CustomerAccount checkCustomer(String usn, String psw) {
         return boba.checkCustomer(usn, psw);
     }
+    public static void showmenu(){
+        GeneralList<OrderedProduct> genList = boba.getMenu();
+        String format = "%-25s%-20s%n";
+        System.out.printf(format,"ID  Name", "Price");
+        for (int i = 0; i < genList.getCount(); i++) {
+            OrderedProduct temp = genList.getItemAt(i);
+            System.out.printf(format,temp.getId()+": "+temp.getProduct().getName(), temp.getProduct().getPrice());
+        }
+}
 }
