@@ -25,23 +25,27 @@ public class CustomerAccount extends Account {
         cusCart = new OrderList(this);
     }
 
+    //Shows the price of the product that the customer bought.
     public int getTotalPrice() {
         return cusCart.sumOfPrice();
     }
 
+    //Shows money in customer account.
     public int getAccmoney() {
         return accMoney;
     }
 
-
+    //Add product to cart.
     public void addToCart(OrderedProduct op) {
         cusCart.add(op);
     }
 
+    //Remove product in cart.
     public void removeProduct(int id) throws NoProductException {
         cusCart.remove(id);
     }
 
+    //Show all products that the customer has ordered.
     public GeneralList<OrderedProduct> printCartItems() throws NoProductException {
         if (cusCart.items == null) {
             throw new NoProductException("Nothing in cart.");
@@ -53,12 +57,14 @@ public class CustomerAccount extends Account {
         return prod;
     }
 
+    //Top up money to customer account
     public void topupAccMoney(int money) {
         if (status) {
             this.accMoney += money;
         }
     }
 
+    //make payment.
     public boolean makePayment() throws NotEnoughMoneyException {
         if(this.accMoney < getTotalPrice()){
             return false;
