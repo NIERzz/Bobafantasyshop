@@ -181,9 +181,11 @@ StaffAccount staff = st;
                 case 4:
                     blacklist(st);
                     break;
+                case 5:
+                    break;
                     // can add more but not yet
             }
-            } while (selectstaff != 3); // can add more but not yet
+            } while (selectstaff != 5); // can add more but not yet
                  System.out.println("********************************************************");
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
@@ -249,9 +251,11 @@ StaffAccount staff = st;
                 case 3:
                     pay(customer);
                     break;
+                case 4:
+                    break;
                     // can add more but not yet
             }
-        } while (selectcust != 3); // can add more but not yet
+        } while (selectcust != 4); // can add more but not yet
                  System.out.println("********************************************************");
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
@@ -283,7 +287,7 @@ StaffAccount staff = st;
             System.out.print("Create your username: ");
             username = input.nextLine();
             checkTemp = boba.checkUsername(username);
-        } while (!checkTemp);
+        } while (checkTemp);
 
         System.out.print("Create your password: ");
         String passw = input.nextLine();
