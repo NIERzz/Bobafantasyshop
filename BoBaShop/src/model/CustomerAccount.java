@@ -6,7 +6,7 @@
 package model;
 
 import Account.Account;
-import Exception.NoProduct;
+import Exception.NoProductException;
 
 /**
  *
@@ -41,13 +41,13 @@ public class CustomerAccount extends Account {
 //        cusCart.remove(menu);
 //    }
 
-    public GeneralList printCartItems() throws NoProduct {
+    public GeneralList<OrderedProduct> printCartItems() throws NoProductException {
         if (cusCart.items == null) {
-            throw new NoProduct("Nothing in cart ");
+            throw new NoProductException("Nothing in cart.");
         }
-        GeneralList<Product> prod = new GeneralList<>();
+        GeneralList<OrderedProduct> prod = new GeneralList<>();
         for (int i = 0; i < cusCart.items.size(); i++) {
-//            prod.add(cusCart.items.get(i));
+            prod.add(cusCart.items.get(i));
         }
         return prod;
     }
