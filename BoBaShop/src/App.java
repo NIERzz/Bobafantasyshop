@@ -4,6 +4,7 @@ import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
 import Exception.NoProductException;
 import Exception.NotEnoughMoneyException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,10 +30,12 @@ public class App {
             + "           3. •  Exits  •            \n"
             + " ==================================  ";
     static String menucustomer = " =====   Select Your Menu:   ===== \n"
-            + "           1. • Topup •            \n"
-            + "           2. • Order •            \n"
-            + "           3. •  Pay  •            \n"
-            + "           4. • Logout  •            \n"
+            + "           1.   • Topup •            \n"
+            + "           2.   • Order •            \n"
+            + "           3.   •  Pay  •            \n"
+            + "           4. • removeorder  •          \n"
+             + "          5.   • clear  •          \n"
+             + "          6.   • Logout  •          \n"
             + " ==================================  ";
     static String menustaff = " =====   Select Your Menu:   ===== \n"
             + "           1. •  Addproduct •            \n"
@@ -278,15 +281,35 @@ StaffAccount staff = st;
                     pay(customer);
                     break;
                 case 4:
+                    removeorder(ca);
                     break;
-                    // can add more but not yet
+                case 5:
+                    clear(ca);
+                    break;
+                case 6:
+                    break;
             }
-        } while (selectcust != 4); // can add more but not yet
+        } while (selectcust != 6); // can add more but not yet
                  System.out.println("********************************************************");
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
         
 
+    }
+    public static void removeorder(CustomerAccount ca){
+        try {
+            showOrderList(ca);
+            System.out.println(" ***** REMOVE PRODUCTS ***** ");
+            System.out.print("Enter product id: ");
+            int productid = input.nextInt(); input.nextLine();
+            boba.removeOrderFromList(ca, productid);
+        } catch (NoProductException ex) {
+            System.out.println(ex.getMessage());
+        }
+     
+    }
+     public static void clear(CustomerAccount ca){
+        boba.clearOrder(ca);
     }
     public static void topup(CustomerAccount ca){
         System.out.print("Enter your money: ");
@@ -302,11 +325,13 @@ StaffAccount staff = st;
         boba.order(ca, drinkmenu, amount);
     }
 
-    public static void pay(CustomerAccount ca){ try {
+    public static void pay(CustomerAccount ca){ 
+        try {
         boba.makePayment(ca);
-        } catch (NotEnoughMoneyException | NoProductException | NEIAException ex) {
+            } catch (NotEnoughMoneyException | NoProductException | NEIAException | IOException ex) {
             System.out.println(ex.getMessage());
-        }
+         }
+
     }
     public static void CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
@@ -354,4 +379,18 @@ StaffAccount staff = st;
             System.out.printf(format,temp.getId()+": "+temp.getProduct().getName(), temp.getProduct().getPrice());
         }
 }
+    public static void showOrderList(CustomerAccount ca){
+        try {
+            System.out.println(" ORDER LIST ");
+            GeneralList<OrderedProduct> genList = boba.getOrderList(ca);
+            String format = "%-25s%-20s%-10s%n";
+            System.out.printf(format,"ID  Name", "Price", "Amount");
+            for (int i = 0; i < genList.getCount(); i++) {
+            OrderedProduct temp = genList.getItemAt(i);
+            System.out.printf(format,temp.getId()+": "+temp.getProduct().getName(), temp.getProduct().getPrice(), temp.getAmount());
+        }
+        } catch (NoProductException ex) {
+            System.out.println(ex);
+        }
+    }
 }
