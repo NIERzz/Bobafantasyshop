@@ -5,6 +5,7 @@
  */
 package model;
 
+import Exception.NoProductException;
 import java.util.ArrayList;
 import dbaccess.Stock;
 /**
@@ -34,8 +35,14 @@ public class OrderList {
     return null;
     }
     
-    public void remove(Product prod) {
-       items.remove(prod);
+    public void remove(int id) throws NoProductException {
+        for (OrderedProduct item : items) {
+            if(item.getId()==id){
+                items.remove(item);
+                return;
+            }
+        }
+        throw new NoProductException("This product id doesn't in the order.");
     }
 
     public ArrayList<OrderedProduct> getItems() {
