@@ -13,7 +13,7 @@ import dbaccess.Stock;
  * @author User
  */
 public class OrderList {
-    ArrayList<OrderedProduct> items = new ArrayList<OrderedProduct>();
+    ArrayList<OrderedProduct> items = new ArrayList<>();
     private CustomerAccount CA;
     private OrderedProduct product;
    
@@ -33,6 +33,14 @@ public class OrderList {
             }
         }
     return null;
+    }
+    
+    public int sumOfPrice(){
+        int sum = 0;
+        for (OrderedProduct item : items) {
+            sum += (item.getAmount() * item.getProduct().getPrice());
+        }
+        return sum;
     }
     
     public void remove(int id) throws NoProductException {
