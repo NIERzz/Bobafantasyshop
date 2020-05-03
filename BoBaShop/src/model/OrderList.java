@@ -24,6 +24,10 @@ public class OrderList {
     public void add(OrderedProduct product) {
        items.add(product);
     }
+    
+    public void clear(){
+        items = new ArrayList<>();
+    }
 
     public OrderedProduct checkIdProduct(int id){
         for (OrderedProduct item : items) {
