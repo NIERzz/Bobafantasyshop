@@ -107,9 +107,9 @@ public class App {
         do {
             check = false;
             System.out.print("Enter your username: ");
-            String usn = input.next();
+            String usn = input.nextLine();
             System.out.print("Enter your password: ");
-            String psw = input.next();
+            String psw = input.nextLine();
 
             if (checkAdmin(usn, psw)) {
                 admin();
@@ -204,7 +204,7 @@ StaffAccount staff = st;
                 break;
                 case 2:
                 System.out.print("Enter the product: ");
-                String Dname = input.next(); input.nextLine();
+                String Dname = input.next();
                 System.out.print("Enter price of product: ");
                 int Dprice = input.nextInt(); input.nextLine();
                 boba.addNewProduct(new Dessert(Dprice, Dname));
