@@ -83,6 +83,24 @@ public class App {
         selecthome = input.nextInt(); input.nextLine();
         return selecthome;
     }
+    public static int menustaff(){
+         System.out.println("*******************************************");
+         System.out.println("*********     LOGGIN AS STAFF     *********");
+         System.out.println("*******************************************");        
+         System.out.println(menustaff);
+         System.out.print(" • Enter your menu: ");
+        selectstaff = input.nextInt(); input.nextLine();
+        return selectstaff;
+    }
+ public static int menucustomer(){
+         System.out.println("******************************************");
+         System.out.println("*********   LOGGIN AS CUSTOMER   *********");
+         System.out.println("******************************************");
+         System.out.println(menucustomer);
+         System.out.print(" • Enter your menu: ");
+        selectcust = input.nextInt(); input.nextLine();
+        return selectcust;
+    }
 
     public static void CheckUsernameForLogIn() {
         boolean check;
