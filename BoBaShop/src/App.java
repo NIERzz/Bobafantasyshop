@@ -26,12 +26,14 @@ public class App {
             + "           1. • Topup •            \n"
             + "           2. • Order •            \n"
             + "           3. •  Pay  •            \n"
+            + "           4. • Logout  •            \n"
             + " ==================================  ";
     static String menustaff = " =====   Select Your Menu:   ===== \n"
             + "           1. •  Addproduct •            \n"
             + "           2. • Removeproduct •            \n"
             + "           3. •   Restock  •            \n"
             + "           4. •  Blacklist  •            \n"
+            + "           5. •   Logout  •            \n"
             + " ==================================  ";
     
     
@@ -218,6 +220,7 @@ StaffAccount staff = st;
        
     }
     public static void removeproduct(StaffAccount st){
+        showmenu();
         System.out.print("Enter ID to remove the products: ");
         int rmproductid = input.nextInt(); input.nextLine();
         boba.removeProductFromStock(rmproductid);
@@ -318,6 +321,7 @@ StaffAccount staff = st;
         return boba.checkCustomer(usn, psw);
     }
     public static void showmenu(){
+        System.out.println(" ***** PRODUCTS LIST ****** ");
         GeneralList<OrderedProduct> genList = boba.getMenu();
         String format = "%-25s%-20s%n";
         System.out.printf(format,"ID  Name", "Price");
