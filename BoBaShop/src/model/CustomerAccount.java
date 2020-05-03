@@ -70,12 +70,12 @@ public class CustomerAccount extends Account {
             return false;
         }
         accMoney -= getTotalPrice();
-        /*
-            for making log file.
-        */
-        
-        
+
         return true;
+    }
+    
+    public void clear(){
+        cusCart.clear();
     }
 
 }
