@@ -12,19 +12,21 @@ import java.util.ArrayList;
  * @author User
  */
 public class OrderList {
-    ArrayList<OrderedProduct> items = new ArrayList<>();
-    private CustomerAccount CA;
-    private OrderedProduct product;
+    ArrayList<OrderedProduct> items = new ArrayList<>(); //Arraylist of ordered products.
+    private CustomerAccount CA; //Cart owner.
+    private OrderedProduct product; //Ordered product.
    
     
     public OrderList(CustomerAccount CA) {
         this.CA = CA;
     }
 
+    //Add product in item.
     public void add(OrderedProduct product) {
        items.add(product);
     }
 
+    //Check product by ID of product.
     public OrderedProduct checkIdProduct(int id){
         for (OrderedProduct item : items) {
             if (item.getId()==id) {
@@ -34,6 +36,7 @@ public class OrderList {
     return null;
     }
     
+    //Return Total price of product
     public int sumOfPrice(){
         int sum = 0;
         for (OrderedProduct item : items) {
@@ -42,6 +45,7 @@ public class OrderList {
         return sum;
     }
     
+    //Remove product in items by ID
     public void remove(int id) throws NoProductException {
         for (OrderedProduct item : items) {
             if(item.getId()==id){
@@ -52,6 +56,7 @@ public class OrderList {
         throw new NoProductException("This product id doesn't in the order.");
     }
 
+    //Return all ordered product in items
     public ArrayList<OrderedProduct> getItems() {
         return items;
     }

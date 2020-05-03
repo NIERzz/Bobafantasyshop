@@ -15,9 +15,9 @@ import Exception.NoProductException;
  */
 public class CustomerAccount extends Account {
 
-    private int accMoney;
-    private OrderList cusCart;
-    private boolean status;
+    private int accMoney; //Money in account. 
+    private OrderList cusCart; //Cart for purchased items.
+    private boolean status; //Status of customer account.
 
     public CustomerAccount(String id, String password, Person person) {
         super(id, password, person);
@@ -64,7 +64,7 @@ public class CustomerAccount extends Account {
         }
     }
 
-    //make payment.
+    //Make payment.
     public boolean makePayment() throws NotEnoughMoneyException {
         if(this.accMoney < getTotalPrice()){
             return false;
