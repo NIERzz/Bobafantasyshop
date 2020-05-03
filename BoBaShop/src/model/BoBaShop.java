@@ -90,6 +90,15 @@ public class BoBaShop {
     public void addCustomer(CustomerAccount ca) {
         customers.add(ca);
     }
+    
+    public CustomerAccount getCustomerByUsername(String usn){
+        for (CustomerAccount customer : customers) {
+            if(customer.getId().equals(usn)){
+                return customer;
+            }
+        }
+        return null;
+    }
 
     public boolean checkUsername(String username) {
         if (username.equals("admin") || username.equals(staff.getId())) {
