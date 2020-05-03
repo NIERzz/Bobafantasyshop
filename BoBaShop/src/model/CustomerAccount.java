@@ -5,6 +5,7 @@
  */
 package model;
 
+import Exception.NotEnoughMoneyException;
 import Account.Account;
 import Exception.NoProductException;
 
@@ -24,8 +25,8 @@ public class CustomerAccount extends Account {
         cusCart = new OrderList(this);
     }
 
-    public int CheckMoney() {
-        return accMoney;
+    public int getTotalPrice() {
+        return cusCart.sumOfPrice();
     }
 
     public int getAccmoney() {
@@ -58,8 +59,17 @@ public class CustomerAccount extends Account {
         }
     }
 
-    public boolean makePayment() {
-        return false;
+    public boolean makePayment() throws NotEnoughMoneyException {
+        if(this.accMoney < getTotalPrice()){
+            return false;
+        }
+        accMoney -= getTotalPrice();
+        /*
+            for making log file.
+        */
+        
+        
+        return true;
     }
 
 }
