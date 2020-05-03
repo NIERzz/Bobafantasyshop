@@ -1,6 +1,12 @@
 
+import Account.AccountStatus;
 import Exception.ExceedMaxCapacityException;
+import Exception.NEIAException;
+import Exception.NoProductException;
+import Exception.NotEnoughMoneyException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Beverage;
 import model.BoBaShop;
 import model.CustomerAccount;
@@ -133,8 +139,14 @@ public class App {
                     check = true;
                 }
                 if (checkCustomer(usn, psw) != null) {
+                    if(checkCustomer(usn, psw).getStatus().equals(AccountStatus.BLACKLISTED)){
+                        System.out.println("====================================");
+                        System.out.println("===            Sorry             ===");
+                        System.out.println("=== Your account was blacklisted ===");
+                        System.out.println("====================================");
+                    } else {
                     customer(checkCustomer(usn, psw));
-                    check = true;
+                    check = true;}
                 } else {
                     System.out.println(" ==== FAILED TO LOGIN! ==== ");
                     System.out.println("      PLEASE TRY AGAIN      ");
@@ -197,7 +209,6 @@ StaffAccount staff = st;
                     break;
                 case 5:
                     break;
-                    // can add more but not yet
             }
             } while (selectstaff != 5); // can add more but not yet
                  System.out.println("********************************************************");
@@ -291,8 +302,11 @@ StaffAccount staff = st;
         boba.order(ca, drinkmenu, amount);
     }
 
-    public static void pay(CustomerAccount ca){ //*********** not success ***********
+    public static void pay(CustomerAccount ca){ try {
         boba.makePayment(ca);
+        } catch (NotEnoughMoneyException | NoProductException | NEIAException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     public static void CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
