@@ -44,8 +44,14 @@ public class App {
                     login();
                     break;
                 case 2:
+                    if(boba==null){
+                        System.out.println("     ======================     ");
+                        System.out.println("  YOUR SHOP DOESN'T CREATE YET  ");
+                        System.out.println("     PLEASE CREATE THE SHOP    ");
+                        System.out.println("     ======================     ");   
+                    break;
+                    }
                     register();
-
                     break;
             }
         } while (selecthome != 3);
@@ -142,7 +148,8 @@ public class App {
     public static void staff(StaffAccount st) {
 selectstaff = menu();
 StaffAccount staff = st;
-            switch (selectstaff) {
+            do {
+                switch (selectstaff) {
                 case 1:
                     addproduct(staff);
                     break;
@@ -157,7 +164,7 @@ StaffAccount staff = st;
                     break;
                     // can add more but not yet
             }
-         while (selectstaff != 3); // can add more but not yet
+            } while (selectstaff != 3); // can add more but not yet
                  System.out.println("********************************************************");
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
@@ -211,8 +218,8 @@ StaffAccount staff = st;
    /*                                                                           CUSTOMER ZONE !!!!!!!                                                                                 */ 
     public static void customer(CustomerAccount ca) {
         CustomerAccount customer = ca;
-        {
             selectcust = menu();
+        do{    
             switch (selectcust) {
                 case 1:
                     topup(customer);
@@ -229,7 +236,7 @@ StaffAccount staff = st;
                  System.out.println("********************************************************");
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
-
+        
 
     }
     public static void topup(CustomerAccount ca){
