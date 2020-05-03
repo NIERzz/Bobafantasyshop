@@ -204,7 +204,7 @@ StaffAccount staff = st;
                 break;
                 case 2:
                 System.out.print("Enter the product: ");
-                String Dname = input.next();
+                String Dname = input.nextLine();
                 System.out.print("Enter price of product: ");
                 int Dprice = input.nextInt(); input.nextLine();
                 boba.addNewProduct(new Dessert(Dprice, Dname));
