@@ -102,6 +102,24 @@ public class BoBaShop {
             }
         }
     }
+    
+    public void clearOrder(Account ca){
+        for (CustomerAccount customer : customers) {
+            if(customer.equals(ca)) {
+                customer.clear();
+            }
+        }
+    }
+    
+    public GeneralList<OrderedProduct> getOrderList(Account ca) throws NoProductException{
+        GeneralList<OrderedProduct> genList = null;
+        for (CustomerAccount customer : customers) {
+            if(customer.equals(ca)){
+                genList = customer.printCartItems();
+            }
+        }
+        return genList;
+    }
 
     /////////////////////////////////////
     ////////////// STAFF ////////////////
