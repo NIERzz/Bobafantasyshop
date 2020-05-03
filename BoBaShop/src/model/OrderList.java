@@ -7,7 +7,6 @@ package model;
 
 import Exception.NoProductException;
 import java.util.ArrayList;
-import dbaccess.Stock;
 /**
  *
  * @author User
