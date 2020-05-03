@@ -34,7 +34,7 @@ public class App {
     
     
     public static void main(String[] args) {
-        
+        homepage();
     }
     public static void homepage(){
         do {
@@ -80,7 +80,7 @@ public class App {
          System.out.println("*******************************************");
          System.out.println(menuhomepage);
          System.out.print(" • Enter your menu: ");
-        selecthome = input.nextInt();
+        selecthome = input.nextInt(); input.nextLine();
         return selecthome;
     }
 
@@ -122,22 +122,22 @@ public class App {
         System.out.println("***************************************");
 
         System.out.print("Enter your shop name: ");
-        String shopname = input.next();
+        String shopname = input.nextLine();
         System.out.print("Enter maximum capacity of your shop: ");
         int mcp = input.nextInt();
         System.out.println("********************************");
         System.out.println("***** CREATE STAFF ACCOUNT *****");
         System.out.println("********************************");
         System.out.print("Enter your username: ");
-        String staffusn = input.next();
+        String staffusn = input.nextLine();
         System.out.print("Enter your password: ");
-        String staffpsw = input.next();
+        String staffpsw = input.nextLine();
         System.out.print("Enter your name: ");
-        String staffname = input.next();
+        String staffname = input.nextLine();
         System.out.print("Enter your e-mail: ");
-        String email = input.next();
+        String email = input.nextLine();
         System.out.print("Enter your phone-number: ");
-        String phonenum = input.next();
+        String phonenum = input.nextLine();
         staff = new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum));
         boba = new BoBaShop(shopname, staff ,mcp);
         
@@ -146,9 +146,10 @@ public class App {
 }
     /*                                                                          STAFF ZONE !!!!!!!                                                                                 */
     public static void staff(StaffAccount st) {
-selectstaff = menu();
+do { 
+    selectstaff = menu();
 StaffAccount staff = st;
-            do {
+            
                 switch (selectstaff) {
                 case 1:
                     addproduct(staff);
@@ -174,20 +175,20 @@ StaffAccount staff = st;
         System.out.println(" • 1. Beverage • ");
         System.out.println(" • 2. Dessert  • ");
         System.out.print(" === Enter type: ");
-        int typeselect = input.nextInt();
+        int typeselect = input.nextInt(); input.nextLine();
         switch(typeselect){
             case 1:
                 System.out.print("Enter the product: ");
-                String Bname = input.next();
+                String Bname = input.nextLine();
                 System.out.print("Enter price of product: ");
-                int Bprice = input.nextInt();
+                int Bprice = input.nextInt(); input.nextLine();
                 boba.addNewProduct(new Beverage(Bprice, Bname));
                 break;
                 case 2:
                 System.out.print("Enter the product: ");
-                String Dname = input.next();
+                String Dname = input.next(); input.nextLine();
                 System.out.print("Enter price of product: ");
-                int Dprice = input.nextInt();
+                int Dprice = input.nextInt(); input.nextLine();
                 boba.addNewProduct(new Dessert(Dprice, Dname));
                 break;
         }
@@ -196,14 +197,14 @@ StaffAccount staff = st;
     }
     public static void removeproduct(StaffAccount st){
         System.out.print("Enter ID to remove the products: ");
-        int rmproductid = input.nextInt();
+        int rmproductid = input.nextInt(); input.nextLine();
         boba.removeProductFromStock(rmproductid);
     }
     public static void restock(StaffAccount st) {
       try {  System.out.print("Enter Id to add the products: ");
-        int addproductid = input.nextInt();
+        int addproductid = input.nextInt(); input.nextLine();
         System.out.print("Enter Amount of the products: ");
-        int amountproduct = input.nextInt();
+        int amountproduct = input.nextInt(); input.nextLine();
         boba.restock(addproductid, amountproduct);
       }
             catch(ExceedMaxCapacityException m){
@@ -212,14 +213,14 @@ StaffAccount staff = st;
     }
     public static void blacklist(StaffAccount st){
          System.out.print("Enter username: ");
-        String blacklist = input.next();
+        String blacklist = input.nextLine();
         boba.blacklistCustomer(boba.getCustomerByUsername(blacklist));
     }
    /*                                                                           CUSTOMER ZONE !!!!!!!                                                                                 */ 
     public static void customer(CustomerAccount ca) {
         CustomerAccount customer = ca;
-            selectcust = menu();
-        do{    
+         do{   selectcust = menu();
+            
             switch (selectcust) {
                 case 1:
                     topup(customer);
@@ -241,15 +242,15 @@ StaffAccount staff = st;
     }
     public static void topup(CustomerAccount ca){
         System.out.print("Enter your money: ");
-        int money = input.nextInt();
+        int money = input.nextInt(); input.nextLine();
         boba.topUp(ca, money);
     }
     
     public static void order(CustomerAccount ca){
         System.out.print("Select your drink: ");
-        int drinkmenu = input.nextInt();
+        int drinkmenu = input.nextInt(); input.nextLine();
         System.out.println("Amount: ");
-        int amount = input.nextInt();
+        int amount = input.nextInt(); input.nextLine();
         boba.order(ca, drinkmenu, amount);
     }
 
@@ -262,12 +263,12 @@ StaffAccount staff = st;
         do {
             checkTemp = false;
             System.out.print("Create your username: ");
-            username = input.next();
+            username = input.nextLine();
             checkTemp = boba.checkUsername(username);
         } while (!checkTemp);
 
         System.out.print("Create your password: ");
-        String passw = input.next();
+        String passw = input.nextLine();
         System.out.print("Enter your first name: ");
         firstname = input.nextLine();
         System.out.print("Enter your last name: ");
