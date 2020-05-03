@@ -8,6 +8,12 @@ import Exception.NEIAException;
 import Exception.NoProductException;
 import Exception.NotEnoughMoneyException;
 import dbaccess.Stock;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 //import dbaccess.Stock;
@@ -46,7 +52,10 @@ public class BoBaShop {
         }
     }
 
-    public void makePayment(Account ca) throws NotEnoughMoneyException, NoProductException, NEIAException {
+    public void makePayment(Account ca) throws NotEnoughMoneyException, NoProductException, NEIAException, IOException {
+        LocalDateTime timeorder = LocalDateTime.now(ZoneId.of("Asia/Singapore"));
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:SS");
+        
         for (CustomerAccount customer : customers) {
             if (customer.equals(ca)) {
                 GeneralList<OrderedProduct> genList = customer.printCartItems();
@@ -68,6 +77,16 @@ public class BoBaShop {
                         int oAmount = temp.getAmount();
                         stock.update(id, oAmount);
                     }
+                    FileWriter fw = new FileWriter("users.txt");
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.newLine();
+                    bw.write(" "+timeorder.format(format)+"Name: "+customer.getPerson().getName()+"{");
+                       for (int i = 0; i < genList.getCount(); i++) {
+                        OrderedProduct temp = genList.getItemAt(i);
+                    bw.write("["+temp.getProduct().getName()+" "+temp.getAmount()+" "+temp.getProduct().getPrice()+"]");
+                    }
+                    bw.write(", totalprice: "+customer.getTotalPrice()+"}");
+                    bw.close();
                 } else {
                     throw new NotEnoughMoneyException("Not enough money.");
                 }
@@ -163,4 +182,5 @@ public class BoBaShop {
     public void updateStock(int id, int amount) throws NEIAException {
         stock.update(id, amount);
     }
+
 }
