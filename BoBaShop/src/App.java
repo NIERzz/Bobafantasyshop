@@ -115,21 +115,31 @@ public class App {
             System.out.print("Enter your password: ");
             String psw = input.nextLine();
 
-            if (checkAdmin(usn, psw)) {
-                admin();
-                check = true;
-            }
-            if (checkStaff(usn, psw)) {
-                staff(staff);
-                check = true;
-            }
-            if (checkCustomer(usn, psw) != null) {
-                customer(checkCustomer(usn, psw));
-                check = true;
-            }else {
-              System.out.println(" ==== FAILED TO LOGIN! ==== ");
-              System.out.println("      PLEASE TRY AGAIN      ");
-              System.out.println(" ========================== ");
+            if (boba == null) {
+                if (checkAdmin(usn, psw)) {
+                    admin();
+                    check = true;
+                } else {
+                    System.out.println(" ==== FAILED TO LOGIN! ==== ");
+                    System.out.println("   PLEASE CREATE THE SHOP   ");
+                    System.out.println("     BY SIGN IN AS ADMIN    ");
+                    System.out.println("       USERNAME: admin      ");
+                    System.out.println("       PASSWORD: admin      ");
+                    System.out.println(" ========================== ");
+                }
+            } else {
+                if (checkStaff(usn, psw)) {
+                    staff(staff);
+                    check = true;
+                }
+                if (checkCustomer(usn, psw) != null) {
+                    customer(checkCustomer(usn, psw));
+                    check = true;
+                } else {
+                    System.out.println(" ==== FAILED TO LOGIN! ==== ");
+                    System.out.println("      PLEASE TRY AGAIN      ");
+                    System.out.println(" ========================== ");
+                }
             }
         } while (!check);
     }
