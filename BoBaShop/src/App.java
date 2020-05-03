@@ -104,7 +104,7 @@ public class App {
             }
         } while (!check);
     }
-
+/*                                                                           ADMIN ZONE !!!!!!!                                                                                 */
     public static void admin() {
         shopcreate();
         logout();
@@ -135,6 +135,7 @@ public class App {
        
     
 }
+    /*                                                                          STAFF ZONE !!!!!!!                                                                                 */
     public static void staff(StaffAccount st) throws ExceedMaxCapacityException {
 selectstaff = menu();
 StaffAccount staff = st;
@@ -149,7 +150,7 @@ StaffAccount staff = st;
                     restock(staff);
                     break;
                 case 4:
-                    blacklist()
+                    blacklist(st);
                     break;
                     // can add more but not yet
             }
@@ -199,12 +200,12 @@ StaffAccount staff = st;
                 System.out.println(m.getMessage());
         }
     }
-    public static void blacklist(CustomerAccount ca){
-        System.out.print("Enter username: ");
-        CustomerAccount blacklist = input.next();
-        CustomerAccount customer = ca;
-        boba.blacklistCustomer(customer);
+    public static void blacklist(StaffAccount st){
+         System.out.print("Enter username: ");
+        String blacklist = input.next();
+        boba.blacklistCustomer(boba.getCustomerByUsername(blacklist));
     }
+   /*                                                                           CUSTOMER ZONE !!!!!!!                                                                                 */ 
     public static void customer(CustomerAccount ca) {
         CustomerAccount customer = ca;
         {
