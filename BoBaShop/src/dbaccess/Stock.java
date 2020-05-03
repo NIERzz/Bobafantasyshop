@@ -83,6 +83,20 @@ public class Stock {
 //            System.out.println(ex);
 //        }
 //    }
+    
+    public int getItemAmountById(int id){
+        try(Connection conn = DBConnection.getConnection();
+                Statement stm = conn.createStatement()){
+            ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id =" +id);
+            if(rs.next()){
+                return rs.getInt("p_amount");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return -1;
+    }
+    
     public GeneralList<OrderedProduct> showAll() {
         GeneralList<OrderedProduct> prodList = new GeneralList<>();
         try (Connection conn = DBConnection.getConnection(); Statement stm = conn.createStatement()) {
