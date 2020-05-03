@@ -22,12 +22,7 @@ public abstract class Account {
         this.password = password;
         this.person = person;
         this.status = AccountStatus.SUBSCRIBED;
-    }
-    
-   public boolean unsubscribe(){
-        this.status= AccountStatus.UNSUBSCRIBED;
-        return true;
-    }
+    }   
 
     public String getId() {
         return id;
