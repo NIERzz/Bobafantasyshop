@@ -37,9 +37,9 @@ public class CustomerAccount extends Account {
         cusCart.add(op);
     }
 
-//    public void removeProduct(String menu) {
-//        cusCart.remove(menu);
-//    }
+    public void removeProduct(int id) throws NoProductException {
+        cusCart.remove(id);
+    }
 
     public GeneralList<OrderedProduct> printCartItems() throws NoProductException {
         if (cusCart.items == null) {
