@@ -1,7 +1,10 @@
 
+import Exception.ExceedMaxCapacityException;
 import java.util.Scanner;
+import model.Beverage;
 import model.BoBaShop;
 import model.CustomerAccount;
+import model.Dessert;
 import model.Person;
 import model.StaffAccount;
 
@@ -9,6 +12,7 @@ public class App {
     private static BoBaShop boba;
     static int selecthome;
     static int selectcust;
+    static int selectstaff;
     static Scanner input = new Scanner(System.in);
     static String menuhomepage = " =====   Select Your Menu:   ===== \n"
             + "           1. • Sign-in •            \n"
@@ -19,6 +23,12 @@ public class App {
             + "           1. • Topup •            \n"
             + "           2. • Order •            \n"
             + "           3. •  Pay  •            \n"
+            + " ==================================  ";
+    static String menustaff = " =====   Select Your Menu:   ===== \n"
+            + "           1. •  Addproduct •            \n"
+            + "           2. • Removeproduct •            \n"
+            + "           3. •   Restock  •            \n"
+            + "           4. •  Blacklist  •            \n"
             + " ==================================  ";
     
     
@@ -115,7 +125,7 @@ public class App {
         String staffusn = input.next();
         System.out.print("Enter your password: ");
         String staffpsw = input.next();
-        System.out.println("Enter your name: ");
+        System.out.print("Enter your name: ");
         String staffname = input.next();
         System.out.print("Enter your e-mail: ");
         String email = input.next();
@@ -125,31 +135,76 @@ public class App {
        
     
 }
-    public static void staff() {
-//        addproduct
-//        removeproduct
-//        restock
-//      blacklist
-    }
-    public static void addproduct(){
-        System.out.println("Product Id: ");
-        int productid = input.nextInt();
+    public static void staff(StaffAccount st) throws ExceedMaxCapacityException {
+selectstaff = menu();
+StaffAccount staff = st;
+            switch (selectstaff) {
+                case 1:
+                    addproduct(staff);
+                    break;
+                case 2:
+                    removeproduct(staff);
+                    break;
+                case 3:
+                    restock(staff);
+                    break;
+                case 4:
+                    blacklist()
+                    break;
+                    // can add more but not yet
+            }
+         while (selectstaff != 3); // can add more but not yet
+                 System.out.println("********************************************************");
+                 System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
+                 System.out.println("********************************************************");
+}
+    public static void addproduct(StaffAccount st){
+        System.out.println(" ***** SELECT TYPE OF PRODUCTS ****** ");
+        System.out.println(" • 1. Beverage • ");
+        System.out.println(" • 2. Dessert  • ");
+        System.out.print(" === Enter type: ");
+        int type = input.nextInt();
+        switch(type){
+            case 1:
+                System.out.print("Enter the product: ");
+                String pname = input.next();
+                System.out.print("Enter price of product: ");
+                int pprice = input.nextInt();
+                
+        }
        
     }
-
+    public static void removeproduct(StaffAccount st){
+        System.out.print("Enter ID to remove the products: ");
+        int rmproductid = input.nextInt();
+        boba.removeProductFromStock(rmproductid);
+    }
+    public static void restock(StaffAccount st) throws ExceedMaxCapacityException{
+        System.out.print("Enter Id to add the products: ");
+        int addproductid = input.nextInt();
+        System.out.print("Enter Amount of the products: ");
+        int amountproduct = input.nextInt();
+        boba.restock(addproductid, amountproduct);
+    }
+    public static void blacklist(CustomerAccount ca){
+        System.out.print("Enter username: ");
+        CustomerAccount blacklist = input.next();
+        CustomerAccount customer = ca;
+        boba.blacklistCustomer(customer);
+    }
     public static void customer(CustomerAccount ca) {
         CustomerAccount customer = ca;
         {
             selectcust = menu();
             switch (selectcust) {
                 case 1:
-                    topup(ca);
+                    topup(customer);
                     break;
                 case 2:
-                    order(ca);
+                    order(customer);
                     break;
                 case 3:
-                    pay(ca);
+                    pay(customer);
                     break;
                     // can add more but not yet
             }
@@ -158,7 +213,7 @@ public class App {
                  System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
                  System.out.println("********************************************************");
 
-//          pay
+
     }
     public static void topup(CustomerAccount ca){
         System.out.print("Enter your money: ");
@@ -189,13 +244,13 @@ public class App {
 
         System.out.print("Create your password: ");
         String passw = input.next();
-        System.out.println("Enter your first name: ");
+        System.out.print("Enter your first name: ");
         firstname = input.nextLine();
-        System.out.println("Enter your last name: ");
+        System.out.print("Enter your last name: ");
         lastname = input.nextLine();
-        System.out.println("Enter your phone numbers: ");
+        System.out.print("Enter your phone numbers: ");
         phone = input.nextLine();
-        System.out.println("Enter your email: ");
+        System.out.print("Enter your email: ");
         email = input.nextLine();
         name = (firstname + " " + lastname);
         System.out.println(" ****** YOUR ACCOUNT HAS BEEN SUCCESSFULLY CREATED  ****** ");
