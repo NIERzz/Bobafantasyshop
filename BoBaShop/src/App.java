@@ -142,7 +142,7 @@ public class App {
         System.out.print("Enter your shop name: ");
         String shopname = input.nextLine();
         System.out.print("Enter maximum capacity of your shop: ");
-        int mcp = input.nextInt();
+        int mcp = input.nextInt(); input.nextLine();
         System.out.println("********************************");
         System.out.println("***** CREATE STAFF ACCOUNT *****");
         System.out.println("********************************");
