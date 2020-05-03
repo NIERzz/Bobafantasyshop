@@ -89,9 +89,9 @@ public class Stock {
             ResultSet rs = stm.executeQuery("SELECT * FROM product ORDER BY p_id ASC");
             while (rs.next()) {
                 if (rs.getString("p_type").equals("Beverage")) {
-                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Beverage(rs.getInt("p_id"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
+                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Beverage(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
                 } else {
-                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Dessert(rs.getInt("p_id"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
+                    prodList.add(new OrderedProduct(rs.getInt("p_id"), rs.getInt("p_amount"), new Dessert(rs.getInt("p_price"), rs.getString("p_name"), ProductStatus.valueOf(rs.getString("p_status")))));
                 }
             }
         } catch (SQLException ex) {
