@@ -13,6 +13,7 @@ public class App {
     static int selecthome;
     static int selectcust;
     static int selectstaff;
+    private static StaffAccount staff;
     static Scanner input = new Scanner(System.in);
     static String menuhomepage = " =====   Select Your Menu:   ===== \n"
             + "           1. • Sign-in •            \n"
@@ -91,7 +92,7 @@ public class App {
                 check = true;
             }
             if (checkStaff(usn, psw)) {
-                staff();
+                staff(staff);
                 check = true;
             }
             if (checkCustomer(usn, psw) != null) {
@@ -131,12 +132,14 @@ public class App {
         String email = input.next();
         System.out.print("Enter your phone-number: ");
         String phonenum = input.next();
-        boba = new BoBaShop(shopname, new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum)),mcp);
+        staff = new StaffAccount(staffusn, staffpsw, new Person(staffname, email, phonenum));
+        boba = new BoBaShop(shopname, staff ,mcp);
+        
        
     
 }
     /*                                                                          STAFF ZONE !!!!!!!                                                                                 */
-    public static void staff(StaffAccount st) throws ExceedMaxCapacityException {
+    public static void staff(StaffAccount st) {
 selectstaff = menu();
 StaffAccount staff = st;
             switch (selectstaff) {
@@ -246,7 +249,7 @@ StaffAccount staff = st;
     public static void pay(CustomerAccount ca){ //*********** not success ***********
         boba.makePayment(ca);
     }
-    public static String CheckUsernameForRegistered() {
+    public static void CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
         boolean checkTemp;
         do {
@@ -268,7 +271,7 @@ StaffAccount staff = st;
         email = input.nextLine();
         name = (firstname + " " + lastname);
         System.out.println(" ****** YOUR ACCOUNT HAS BEEN SUCCESSFULLY CREATED  ****** ");
-        XXX.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
+        boba.addCustomer(new CustomerAccount(username, passw, new Person(name, email, phone)));
     }
 
     private static boolean checkAdmin(String usn, String psw) {
@@ -276,10 +279,10 @@ StaffAccount staff = st;
     }
 
     private static boolean checkStaff(String usn, String psw) {
-        return XXX.checkStaff(usn, psw);
+        return boba.checkStaff(usn, psw);
     }
 
     private static CustomerAccount checkCustomer(String usn, String psw) {
-        return XXX.checkCustomer(usn, psw);
+        return boba.checkCustomer(usn, psw);
     }
 }
