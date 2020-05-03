@@ -77,7 +77,7 @@ public class BoBaShop {
                         int oAmount = temp.getAmount();
                         stock.update(id, oAmount);
                     }
-                    FileWriter fw = new FileWriter("users.txt");
+                    FileWriter fw = new FileWriter("Bill.txt");
                     BufferedWriter bw = new BufferedWriter(fw);
                     bw.newLine();
                     bw.write(" "+timeorder.format(format)+"Name: "+customer.getPerson().getName()+"{");
