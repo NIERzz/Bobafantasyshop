@@ -33,16 +33,19 @@ public class App {
             + "           1.   • Topup •            \n"
             + "           2.   • Order •            \n"
             + "           3.   •  Pay  •            \n"
-            + "           4. • removeorder  •          \n"
-             + "          5.   • clear  •          \n"
-             + "          6.   • Logout  •          \n"
+            + "           4. • removeorder  •       \n"
+            + "          5.    • clear  •           \n"
+            + "          6.   • Showmenu •           \n"
+            + "          7.   • OrderList •           \n"
+            + "          8.    • Logout •           \n"
             + " ==================================  ";
     static String menustaff = " =====   Select Your Menu:   ===== \n"
             + "           1. •  Addproduct •            \n"
             + "           2. • Removeproduct •            \n"
             + "           3. •   Restock  •            \n"
             + "           4. •  Blacklist  •            \n"
-            + "           5. •   Logout  •            \n"
+            + "           5. •  Showmenu  •            \n"
+            + "           6. •   Logout  •            \n"
             + " ==================================  ";
     
     
@@ -211,12 +214,13 @@ StaffAccount staff = st;
                     blacklist(st);
                     break;
                 case 5:
+                    showmenu();
+                    break;
+                case 6:
                     break;
             }
-            } while (selectstaff != 5); // can add more but not yet
-                 System.out.println("********************************************************");
-                 System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
-                 System.out.println("********************************************************");
+            } while (selectstaff != 6); 
+                
 }
     public static void addproduct(StaffAccount st){
         System.out.println(" ***** SELECT TYPE OF PRODUCTS ****** ");
@@ -287,12 +291,16 @@ StaffAccount staff = st;
                     clear(ca);
                     break;
                 case 6:
+                    showmenu();
+                    break;
+                case 7:
+                    showOrderList(ca);
+                    break;
+                case 8:
                     break;
             }
-        } while (selectcust != 6); // can add more but not yet
-                 System.out.println("********************************************************");
-                 System.out.println("***** THANK YOU FOR VISITING TO BOBASHOP, GOODLUCK *****");
-                 System.out.println("********************************************************");
+        } while (selectcust != 8); 
+                 
         
 
     }
