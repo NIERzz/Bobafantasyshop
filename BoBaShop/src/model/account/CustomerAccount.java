@@ -6,7 +6,6 @@
 package model.account;
 
 import Exception.NotEnoughMoneyException;
-import model.account.Account;
 import Exception.NoProductException;
 import model.GeneralList;
 import model.product.OrderedProduct;
