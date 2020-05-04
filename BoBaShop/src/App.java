@@ -5,7 +5,10 @@ import Exception.NEIAException;
 import Exception.NoProductException;
 import Exception.NotEnoughMoneyException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Beverage;
 import model.BoBaShop;
 import model.CustomerAccount;
@@ -26,27 +29,27 @@ public class App {
     static String menuhomepage = " =====   Select Your Menu:   ===== \n"
             + "           1. • Sign-in •            \n"
             + "           2. • Sign-up •            \n"
-            + "           3. •  Exits  •            \n"
+            + "           3. • Exits   •            \n"
             + " ==================================  ";
     static String menucustomer = " =====   Select Your Menu:   ===== \n"
-            + "           1.   • Topup •            \n"
-            + "           2. • View Money •            \n"
-            + "           3.  • Show Menu •            \n"
-            + "           4.   • Order •            \n"
-            + "           5.•  Remove Order  •            \n"
-            + "           6. • Clear Order  •       \n"
-            + "           7.  • Order List  •           \n"
-            + "           8.  • Total Price •           \n"
-            + "           9.    • Pay •           \n"
-            + "           10.  • Logout •           \n"
+            + "           1. •  Topup         •            \n"
+            + "           2. •  View Money    •            \n"
+            + "           3. •  Show Menu     •            \n"
+            + "           4. •  Order         •            \n"
+            + "           5. •  Remove Order  •            \n"
+            + "           6. •  Clear Order   •       \n"
+            + "           7. •  Order List    •           \n"
+            + "           8. •  Total Price   •           \n"
+            + "           9. •  Pay           •           \n"
+            + "           10.•  Logout        •           \n"
             + " ==================================  ";
     static String menustaff = " =====   Select Your Menu:   ===== \n"
-            + "           1. •  Addproduct •            \n"
+            + "           1. • Addproduct    •            \n"
             + "           2. • Removeproduct •            \n"
-            + "           3. •   Restock  •            \n"
-            + "           4. •  Blacklist  •            \n"
-            + "           5. •  Showmenu  •            \n"
-            + "           6. •   Logout  •            \n"
+            + "           3. • Restock       •            \n"
+            + "           4. • Blacklist     •            \n"
+            + "           5. • Showmenu      •            \n"
+            + "           6. • Logout        •            \n"
             + " ==================================  ";
 
     public static void main(String[] args) {
@@ -69,6 +72,8 @@ public class App {
                         break;
                     }
                     register();
+                    break;
+                case 3:
                     break;
             }
         } while (selecthome != 3);
@@ -222,7 +227,7 @@ public class App {
                     blacklist(st);
                     break;
                 case 5:
-                    showmenu();
+                    showMenuStaff();
                     break;
                 case 6:
                     break;
@@ -232,36 +237,36 @@ public class App {
     }
 
     public static void addproduct(StaffAccount st) {
-        System.out.println(" ***** SELECT TYPE OF PRODUCTS ****** ");
-        System.out.println(" • 1. Beverage • ");
-        System.out.println(" • 2. Dessert  • ");
-        System.out.print(" === Enter type: ");
-        int typeselect = input.nextInt();
-        input.nextLine();
-        switch (typeselect) {
-            case 1:
-                System.out.print("Enter the product: ");
-                String Bname = input.nextLine();
-                System.out.print("Enter price of product: ");
-                int Bprice = input.nextInt();
-                input.nextLine();
-                boba.addNewProduct(new Beverage(Bprice, Bname));
-                break;
-            case 2:
-                System.out.print("Enter the product: ");
-                String Dname = input.nextLine();
-                System.out.print("Enter price of product: ");
-                int Dprice = input.nextInt();
-                input.nextLine();
-                boba.addNewProduct(new Dessert(Dprice, Dname));
-                break;
-        }
+            System.out.println(" ***** SELECT TYPE OF PRODUCTS ****** ");
+            System.out.println(" • 1. Beverage • ");
+            System.out.println(" • 2. Dessert  • ");
+            System.out.print(" === Enter type: ");
+            int typeselect = input.nextInt();
+            input.nextLine();
+            switch (typeselect) {
+                case 1:
+                    System.out.print("Enter the product: ");
+                    String Bname = input.nextLine();
+                    System.out.print("Enter price of product: ");
+                    int Bprice = input.nextInt();
+                    input.nextLine();
+                    boba.addNewProduct(new Beverage(Bprice, Bname));
+                    break;
+                case 2:
+                    System.out.print("Enter the product: ");
+                    String Dname = input.nextLine();
+                    System.out.print("Enter price of product: ");
+                    int Dprice = input.nextInt();
+                    input.nextLine();
+                    boba.addNewProduct(new Dessert(Dprice, Dname));
+                    break;
+            }
 
     }
 
     public static void removeproduct(StaffAccount st) {
         try {
-            showmenu();
+            showMenu();
             System.out.print("Enter ID to remove the products: ");
             int rmproductid = input.nextInt();
             input.nextLine();
@@ -273,7 +278,7 @@ public class App {
 
     public static void restock(StaffAccount st) {
         try {
-            showmenu();
+            showMenuStaff();
             System.out.print("Enter Id to restock the products: ");
             int addproductid = input.nextInt();
             input.nextLine();
@@ -281,7 +286,7 @@ public class App {
             int amountproduct = input.nextInt();
             input.nextLine();
             boba.restock(addproductid, amountproduct);
-        } catch (ExceedMaxCapacityException m) {
+        } catch (ExceedMaxCapacityException | NoProductException m) {
             System.out.println(m.getMessage());
             System.out.println("Please try again");
         }
@@ -310,7 +315,7 @@ public class App {
                     getAccMoney(customer);
                     break;
                 case 3:
-                    showmenu();
+                    showMenu();
                     break;
                 case 4:
                     order(customer);
@@ -382,7 +387,7 @@ public class App {
     }
 
     public static void order(CustomerAccount ca) {
-        showmenu();
+        showMenu();
         System.out.print("Select your product: ");
         int drinkmenu = input.nextInt();
         input.nextLine();
@@ -407,13 +412,16 @@ public class App {
 
     public static void CheckUsernameForRegistered() {
         String username, name, firstname, lastname, phone, email;
-        boolean checkTemp;
         do {
-            checkTemp = false;
             System.out.print("Create your username: ");
             username = input.nextLine();
-            checkTemp = boba.checkUsername(username);
-        } while (checkTemp);
+            if(!boba.checkUsername(username)){
+                System.out.println("==================================");
+                System.out.println("=== THIS USERNAME ALREADY USED ===");
+                System.out.println("===      PLEASE TRY AGAIN      ===");
+                System.out.println("==================================");
+            }
+        } while (!boba.checkUsername(username));
 
         System.out.print("Create your password: ");
         String passw = input.nextLine();
@@ -442,15 +450,28 @@ public class App {
         return boba.checkCustomer(usn, psw);
     }
 
-    public static void showmenu() {
+    public static void showMenuStaff() {
         System.out.println(" ***** PRODUCTS LIST ****** ");
         GeneralList<OrderedProduct> genList = boba.getMenu();
-        String format = "%-25s%-20s%n";
+        String format = "%-40s%-20s%-10s%n";
+        System.out.printf(format, "ID  Name", "Price", "In Stock");
+        for (int i = 0; i < genList.getCount(); i++) {
+            OrderedProduct temp = genList.getItemAt(i);
+            System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice(), temp.getAmount());
+        }
+        System.out.println("----------------------------");
+    }
+    
+    public static void showMenu() {
+        System.out.println(" ***** PRODUCTS LIST ****** ");
+        GeneralList<OrderedProduct> genList = boba.getMenu();
+        String format = "%-40s%-20s%n";
         System.out.printf(format, "ID  Name", "Price");
         for (int i = 0; i < genList.getCount(); i++) {
             OrderedProduct temp = genList.getItemAt(i);
             System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice());
         }
+        System.out.println("----------------------------");
     }
 
     public static void showOrderList(CustomerAccount ca) {
@@ -463,6 +484,7 @@ public class App {
                 OrderedProduct temp = genList.getItemAt(i);
                 System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice(), temp.getAmount());
             }
+            System.out.println("----------------------------");
         } catch (NoProductException ex) {
             System.out.println(ex);
         }

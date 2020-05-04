@@ -11,6 +11,7 @@ import dbaccess.Stock;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -92,10 +93,10 @@ public class BoBaShop implements StaffServices, CustomerServices {
                     }
                     FileWriter fw = new FileWriter("orderLog.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
-                    bw.write(timeorder.format(format) + " Name: " + customer.getPerson().getName() + " {");
+                    bw.write(timeorder.format(format) + " Customer: " + customer.getPerson().getName() + " Order:{");
                     for (int i = 0; i < genList.getCount(); i++) {
                         OrderedProduct temp = genList.getItemAt(i);
-                        bw.write("[" + temp.getProduct().getName() + " " + temp.getAmount() + " " + temp.getProduct().getPrice() + "],");
+                        bw.write("[p:" + temp.getProduct().getName() + " , amount:" + temp.getAmount() + ", price: " + temp.getProduct().getPrice() + "],");
                     }
                     bw.write(" TotalPrice: " + customer.getTotalPrice() + " }");
                     bw.newLine();
@@ -173,7 +174,7 @@ public class BoBaShop implements StaffServices, CustomerServices {
     }
 
     @Override
-    public void restock(int id, int amount) throws ExceedMaxCapacityException {
+    public void restock(int id, int amount) throws ExceedMaxCapacityException, NoProductException {
         stock.restock(id, amount);
     }
 
@@ -205,15 +206,15 @@ public class BoBaShop implements StaffServices, CustomerServices {
     }
 
     public boolean checkUsername(String username) {
-        if (username.equals("admin") || username.equals(staff.getId())) {
+        if (username.equals("admin") || username.equals(((Account) staff).getId())) {
             return false;
         }
         for (Account customer : customers) {
             if (customer.getId().equals(username)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isStockFull() {

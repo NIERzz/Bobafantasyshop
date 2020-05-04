@@ -5,14 +5,13 @@
         <group>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/OrderList.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/OrderedProduct.java</file>
+            <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/service/CustomerServices.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/dbaccess/Stock.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/CustomerAccount.java</file>
-            <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/BoBaShop.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/App.java</file>
-            <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/Exception/NotEnoughMoneyException.java</file>
+            <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/BoBaShop.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/Account/Account.java</file>
             <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/Account/AccountStatus.java</file>
-            <file>file:/C:/Users/Varot/Documents/NetBeansProjects/BobaFShop/BoBaShop/src/model/GeneralList.java</file>
         </group>
     </open-files>
 </project-private>

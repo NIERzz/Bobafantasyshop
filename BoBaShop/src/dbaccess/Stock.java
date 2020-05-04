@@ -118,7 +118,7 @@ public class Stock {
         }
     }
 
-    public void restock(int id, int amount) throws ExceedMaxCapacityException {
+    public void restock(int id, int amount) throws ExceedMaxCapacityException, NoProductException {
         if (count + amount > MAX_CAPACITY) {
             throw new ExceedMaxCapacityException("Current capacity cannot contain more than " + (MAX_CAPACITY - count) + " products");
         }
@@ -132,6 +132,8 @@ public class Stock {
                     stm.executeUpdate("UPDATE product SET p_amount = " + (rs.getInt("p_amount") + amount) + " WHERE p_id = " + id);
                     count += amount;
                 }
+            } else {
+                throw new NoProductException("Not have product with this ID.");
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -183,10 +185,12 @@ public class Stock {
             ResultSet rs = stm.executeQuery("SELECT * FROM product WHERE p_id = " + id);
             if (rs.next()) {
                 if (rs.getString("p_type").equals("Beverage")) {
+                    count-=rs.getInt("p_amount");
                     stm.executeUpdate("DELETE FROM product WHERE p_id = " + id);
                     removeShiftDown(id);
                     lastCat--;
                 } else {
+                    count-=rs.getInt("p_amount");
                     stm.executeUpdate("DELETE FROM product WHERE p_id = " + id);
                     removeShiftDown(id);
                 }
