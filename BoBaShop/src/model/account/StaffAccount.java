@@ -6,7 +6,6 @@
 package model.account;
 
 import model.Person;
-import model.product.Product;
 import model.account.Account;
 
 /**
@@ -14,20 +13,9 @@ import model.account.Account;
  * @author User
  */
 public class StaffAccount extends Account{
-//    private Stock stock;
 
     public StaffAccount(String id, String password, Person person) {
         super(id, password, person);
-//        this.stock=new Stock();
     }
-    
-    public boolean AddProducts(Product p,int count){
-        
-        return false;
-    }   
-    
-    public boolean DeleteProduct(Product p,int count){
-    
-        return false;
-    }
+
 }
