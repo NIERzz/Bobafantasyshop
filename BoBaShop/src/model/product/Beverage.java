@@ -1,9 +1,6 @@
 
 package model.product;
 
-import model.product.ProductStatus;
-import model.product.Product;
-
 public class Beverage extends Product{
     
     private int price;
