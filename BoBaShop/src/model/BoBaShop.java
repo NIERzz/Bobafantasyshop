@@ -105,6 +105,8 @@ public class BoBaShop implements StaffServices, CustomerServices {
                     bw.write(" TotalPrice: " + customer.getTotalPrice() + " }");
                     bw.newLine();
                     bw.close();
+                    
+                    customer.clear();
                 } else {
                     throw new NotEnoughMoneyException("Not enough money.");
                 }
