@@ -10,9 +10,9 @@ package model;
  * @author User
  */
 public class Person {
-    String name;
-    String email;
-    String phone;
+    private String name;
+    private String email;
+    private String phone;
     
     public Person(String name,String email, String phone) {
         this.name = name;
