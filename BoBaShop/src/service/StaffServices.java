@@ -4,7 +4,6 @@ package service;
 import model.account.Account;
 import Exception.ExceedMaxCapacityException;
 import Exception.NoProductException;
-import java.sql.SQLException;
 import model.product.Product;
 
 public interface StaffServices {
