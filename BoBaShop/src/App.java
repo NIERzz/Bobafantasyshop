@@ -37,7 +37,7 @@ public class App {
             + "           3. •  Show Menu     •            \n"
             + "           4. •  Order         •            \n"
             + "           5. •  Remove Order  •            \n"
-            + "           6. •  Clear Order   •       \n"
+            + "           6. •  Clear Order   •            \n"
             + "           7. •  Order List    •           \n"
             + "           8. •  Total Price   •           \n"
             + "           9. •  Pay           •           \n"
@@ -211,7 +211,7 @@ public class App {
     public static void staff(StaffAccount st) {
         do {
             selectstaff = menustaff();
-            StaffAccount staff = st;
+            staff = st;
 
             switch (selectstaff) {
                 case 1:
@@ -272,7 +272,7 @@ public class App {
             input.nextLine();
             boba.removeProductFromStock(rmproductid);
         } catch (NoProductException ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -455,11 +455,12 @@ public class App {
         GeneralList<OrderedProduct> genList = boba.getMenu();
         String format = "%-40s%-20s%-10s%n";
         System.out.printf(format, "ID  Name", "Price", "In Stock");
+        System.out.println("-----------------------------------------------------");
         for (int i = 0; i < genList.getCount(); i++) {
             OrderedProduct temp = genList.getItemAt(i);
             System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice(), temp.getAmount());
         }
-        System.out.println("----------------------------");
+        System.out.println("-----------------------------------------------------");
     }
     
     public static void showMenu() {
@@ -467,11 +468,12 @@ public class App {
         GeneralList<OrderedProduct> genList = boba.getMenu();
         String format = "%-40s%-20s%n";
         System.out.printf(format, "ID  Name", "Price");
+        System.out.println("-----------------------------------------------------");
         for (int i = 0; i < genList.getCount(); i++) {
             OrderedProduct temp = genList.getItemAt(i);
             System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice());
         }
-        System.out.println("----------------------------");
+        System.out.println("-----------------------------------------------------");
     }
 
     public static void showOrderList(CustomerAccount ca) {
@@ -480,13 +482,14 @@ public class App {
             GeneralList<OrderedProduct> genList = boba.getOrderList(ca);
             String format = "%-25s%-20s%-10s%n";
             System.out.printf(format, "ID  Name", "Price", "Amount");
+            System.out.println("-----------------------------------------------------");
             for (int i = 0; i < genList.getCount(); i++) {
                 OrderedProduct temp = genList.getItemAt(i);
                 System.out.printf(format, temp.getId() + ": " + temp.getProduct().getName(), temp.getProduct().getPrice(), temp.getAmount());
             }
-            System.out.println("----------------------------");
+            System.out.println("-----------------------------------------------------");
         } catch (NoProductException ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
     }
 }
