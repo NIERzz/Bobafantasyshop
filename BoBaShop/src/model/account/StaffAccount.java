@@ -6,7 +6,6 @@
 package model.account;
 
 import model.Person;
-import model.account.Account;
 
 /**
  *
