@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.account;
 
 import Exception.NoProductException;
 import java.util.ArrayList;
+import model.product.OrderedProduct;
 
 /**
  *

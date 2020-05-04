@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Beverage;
-import model.Dessert;
+import model.product.Beverage;
+import model.product.Dessert;
 import model.GeneralList;
-import model.OrderedProduct;
-import model.Product;
-import model.ProductStatus;
+import model.product.OrderedProduct;
+import model.product.Product;
+import model.product.ProductStatus;
 
 public class Stock {
 

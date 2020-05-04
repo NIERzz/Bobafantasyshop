@@ -1,5 +1,5 @@
 
-import Account.AccountStatus;
+import model.account.AccountStatus;
 import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
 import Exception.NoProductException;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Beverage;
+import model.product.Beverage;
 import model.BoBaShop;
-import model.CustomerAccount;
-import model.Dessert;
+import model.account.CustomerAccount;
+import model.product.Dessert;
 import model.GeneralList;
-import model.OrderedProduct;
+import model.product.OrderedProduct;
 import model.Person;
-import model.StaffAccount;
+import model.account.StaffAccount;
 
 public class App {
 

@@ -1,5 +1,5 @@
 
-package model;
+package model.product;
 
 public abstract class Product {
     private int price;

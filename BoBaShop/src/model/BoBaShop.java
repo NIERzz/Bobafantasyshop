@@ -1,8 +1,12 @@
 package model;
 
 //import Exception.ExceedMaxCapacityException;
-import Account.Account;
-import Account.AccountStatus;
+import model.product.OrderedProduct;
+import model.account.CustomerAccount;
+import model.account.StaffAccount;
+import model.product.Product;
+import model.account.Account;
+import model.account.AccountStatus;
 import Exception.ExceedMaxCapacityException;
 import Exception.NEIAException;
 import Exception.NoProductException;

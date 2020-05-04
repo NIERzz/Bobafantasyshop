@@ -1,5 +1,8 @@
 
-package model;
+package model.product;
+
+import model.product.ProductStatus;
+import model.product.Product;
 
 public class Dessert extends Product{
     private int price;

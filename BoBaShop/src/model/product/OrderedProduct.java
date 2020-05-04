@@ -1,5 +1,7 @@
 
-package model;
+package model.product;
+
+import model.product.Product;
 
 public class OrderedProduct {
     

@@ -1,14 +1,14 @@
 
 package service;
 
-import Account.Account;
+import model.account.Account;
 import Exception.NEIAException;
 import Exception.NoProductException;
 import Exception.NotEnoughMoneyException;
 import java.io.IOException;
-import model.CustomerAccount;
+import model.account.CustomerAccount;
 import model.GeneralList;
-import model.OrderedProduct;
+import model.product.OrderedProduct;
 
 public interface CustomerServices {
     public boolean topUp(CustomerAccount ca, int amount);

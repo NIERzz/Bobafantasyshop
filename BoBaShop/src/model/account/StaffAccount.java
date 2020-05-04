@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.account;
 
-import Account.Account;
+import model.Person;
+import model.product.Product;
+import model.account.Account;
 
 /**
  *

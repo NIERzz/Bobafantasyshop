@@ -1,11 +1,11 @@
 
 package service;
 
-import Account.Account;
+import model.account.Account;
 import Exception.ExceedMaxCapacityException;
 import Exception.NoProductException;
 import java.sql.SQLException;
-import model.Product;
+import model.product.Product;
 
 public interface StaffServices {
     public void addNewProduct(Product p);

@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.account;
 
 import Exception.NotEnoughMoneyException;
-import Account.Account;
+import model.account.Account;
 import Exception.NoProductException;
+import model.GeneralList;
+import model.product.OrderedProduct;
+import model.Person;
 
 /**
  *
